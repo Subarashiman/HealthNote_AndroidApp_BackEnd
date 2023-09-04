@@ -1,0 +1,20 @@
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://health-note-db.cbttbh1lh3hw.ap-northeast-2.rds.amazonaws.com:3306/health_note_db?serverTimezone=Asia/Seoul&characterEncoding=UTF-8
+    username: admin
+    password: polytech2022
+
+  jpa:
+    hibernate:
+      ddl-auto: create #none #create면 서버 시작마다 DB에 데이터 초기화 none이면 한번 저장된 데이터 계속 유지
+    properties:
+      hibernate:
+        format_sql: true
+        default_batch_fetch_size: 100 #페이징 최적화 방법
+    open-in-view: true
+
+logging:
+  level:
+    org.hibernate.SQL : debug
+    org.hibernate.orm.jdbc.bind: trace
