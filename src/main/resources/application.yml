@@ -1,4 +1,8 @@
 spring:
+  servlet:
+    multipart:
+      max-file-size: 10MB  # 단일 파일의 최대 크기
+
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
     url: jdbc:mysql://health-note-db.cbttbh1lh3hw.ap-northeast-2.rds.amazonaws.com:3306/health_note_db?serverTimezone=Asia/Seoul&characterEncoding=UTF-8

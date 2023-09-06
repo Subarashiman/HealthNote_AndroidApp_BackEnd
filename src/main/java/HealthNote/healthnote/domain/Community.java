@@ -19,6 +19,7 @@ public class Community {
     @Setter
     private String content;
     @Lob @Setter
+    @Column(length = 50000000)
     private byte[] communityPicture;
     @Setter
     private int goodCount;
@@ -34,6 +35,18 @@ public class Community {
     public void setMember(Member member){
         this.member = member;
         member.getCommunities().add(this);
+    }
+
+
+    //GoodCount 더하기
+    public int addGoodCount(){
+        this.goodCount+=1;
+        return this.goodCount;
+    }
+    //GoodCount 빼기
+    public int minusGoodCount(){
+        this.goodCount-=1;
+        return this.goodCount;
     }
 
 }

@@ -1,9 +1,6 @@
 package HealthNote.healthnote.domain;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -18,7 +15,8 @@ public class Library {
     private int exerciseNumber;
     @Setter
     private String exerciseName;
-    @Setter
+    @Setter @Lob
+    @Column(length = 5000000)
     private byte[] exerciseImage;
     @Setter
     private String exerciseUrl;

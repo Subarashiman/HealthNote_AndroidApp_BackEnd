@@ -30,6 +30,7 @@ public class Member {
     @Setter
     private int weight;
     @Lob @Setter
+    @Column(length = 5000000)
     private byte[] userImage;
     @Setter
     private String introduction;
