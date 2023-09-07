@@ -11,8 +11,8 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.List;
 
 @Service
 @Slf4j
@@ -26,20 +26,20 @@ public class CommunityService {
     //게시글 저장(dto 데이터를 엔티티로 변환 후 저장)
     public boolean contentSave(CommunitySaveDto csd) throws IOException {
         Community community = new Community();
+        LocalDateTime now = LocalDateTime.now();
+        LocalDate date = now.toLocalDate();
 
         community.setGoodCount(0);
-        community.setContent(csd.getContent());
-        community.setDate(LocalDateTime.now());
+        community.setTitle(csd.getTitle());
+        community.setDate(date);
 
         //커뮤니티 엔티티에 해당 member 엔티티 연관관계 맵핑 해주기
-        List<Member> findMembers = memberRepository.findMember(csd.getUserId());
-        if (!findMembers.isEmpty()) {
-            Member member = findMembers.get(0);
-            community.setMember(member);
+        Member findMember = memberRepository.findOne(csd.getId());
+        if (findMember != null) {
+            community.setMember(findMember);
         }else{
             return false;
         }
-
         //커뮤니티에 사진 저장하기
         if(csd.getCommunityPicture()!=null){
             MultipartFile picture = csd.getCommunityPicture();

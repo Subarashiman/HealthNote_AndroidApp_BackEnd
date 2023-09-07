@@ -21,8 +21,8 @@ public class CommunityController {
     private final CommunityService communityService;
 
     //게시글 저장(content-type: multipart/form-data)
-    @PostMapping(value = "/community")
-    public CommunitySaveResponseDto communitySave(@RequestPart("CMjson")String cmJson,
+    @PostMapping("/community")
+    public CommunitySaveResponseDto communitySave(@RequestPart("cmJson")String cmJson,
                                                   @RequestPart("imageFile")MultipartFile image) throws IOException {
         ObjectMapper objectMapper = new ObjectMapper();
 
@@ -39,20 +39,16 @@ public class CommunityController {
         }
     }
 
-
-    
-    
     //게시글 좋아요
+
     
     
     //마이페이지 해당 유저에 게시판 이미지들을 리스트로 넘기기(순서대로)
 
 
-    //게시글 삭제
-
-
     //전체 게시판 게시글 10개씩 끊어서 데이터 넘겨주기(sns메인)
 
+    //게시글 삭제
 
 
 

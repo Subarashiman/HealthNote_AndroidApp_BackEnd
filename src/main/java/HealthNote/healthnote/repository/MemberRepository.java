@@ -25,11 +25,9 @@ public class MemberRepository {
 
 
 
-    // 유저 아이디로 특정 회원 조회
-    public List<Member> findMember(String userId){
-        return em.createQuery("select m from Member m where userId =:userId")
-                    .setParameter("userId",userId)
-                    .getResultList();
+    // 유저PK로 특정 회원 조회
+    public Member findOne(Long id){
+        return em.find(Member.class,id);
 
     }
 

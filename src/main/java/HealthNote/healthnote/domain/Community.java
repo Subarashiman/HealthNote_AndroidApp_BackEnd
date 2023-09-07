@@ -4,7 +4,7 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 
 @Entity
 @Getter
@@ -15,7 +15,7 @@ public class Community {
     @Column(name = "community_id")
     private Long id;
     @Setter
-    private LocalDateTime date;
+    private LocalDate date;
     @Setter
     private String title;
     @Lob @Setter

@@ -7,8 +7,8 @@ import org.springframework.web.multipart.MultipartFile;
 @Getter@Setter
 public class CommunitySaveDto {
 
-    private String content;
+    private Long id;
+    private String title;
     private MultipartFile communityPicture;
-    private String userId;
 
 }
