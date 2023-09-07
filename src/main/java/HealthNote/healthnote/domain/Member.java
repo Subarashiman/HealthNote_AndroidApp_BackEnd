@@ -21,27 +21,13 @@ public class Member {
     private String userPass;
     @Setter
     private String userName;
-    @Setter
-    private String sex;
-    @Setter
-    private int age;
-    @Setter
-    private int height;
-    @Setter
-    private int weight;
     @Lob @Setter
-    @Column(length = 5000000)
+    @Column(length = 50000000)
     private byte[] userImage;
     @Setter
     private String introduction;
     @Setter
     private String email;
-    @Setter
-    private String notification;
-    @Setter
-    private int following;
-    @Setter
-    private int follower;
 
 
     @Setter

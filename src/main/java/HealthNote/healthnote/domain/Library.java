@@ -8,16 +8,12 @@ import lombok.Setter;
 @Getter
 public class Library {
 
-    @Id@GeneratedValue
+    @Id
     @Column(name = "library_id")
-    private Long id;
     @Setter
     private int exerciseNumber;
     @Setter
     private String exerciseName;
-    @Setter @Lob
-    @Column(length = 5000000)
-    private byte[] exerciseImage;
     @Setter
     private String exerciseUrl;
     @Setter

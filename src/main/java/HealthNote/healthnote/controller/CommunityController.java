@@ -21,7 +21,7 @@ public class CommunityController {
     private final CommunityService communityService;
 
     //게시글 저장(content-type: multipart/form-data)
-    @PostMapping(value = "/community", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    @PostMapping(value = "/community")
     public CommunitySaveResponseDto communitySave(@RequestPart("CMjson")String cmJson,
                                                   @RequestPart("imageFile")MultipartFile image) throws IOException {
         ObjectMapper objectMapper = new ObjectMapper();
@@ -31,7 +31,6 @@ public class CommunityController {
         if(!image.isEmpty()){
             csd.setCommunityPicture(image);
         }
-
         boolean saveChecked = communityService.contentSave(csd);
         if(saveChecked == true){
             return new CommunitySaveResponseDto("저장 완료",200,true);
@@ -63,10 +62,8 @@ public class CommunityController {
     public String TestMemberSave(){
         Member member = new Member();
         member.setUserName("홍길동");
-        member.setAge(19);
         member.setUserPass("123456");
         member.setEmail("test@naver.com");
-        member.setSex("남자");
         member.setUserId("testid");
         memberRepository.save(member);
         return "완료";
