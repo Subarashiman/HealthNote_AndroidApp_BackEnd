@@ -6,6 +6,7 @@ import lombok.Setter;
 @Getter@Setter
 public class CommunitySaveResponseDto {
 
+    private Long communityId;
     private String result;
     private int code;
     private boolean success;

@@ -17,4 +17,10 @@ public class CommunityRepository {
         em.persist(community);
     }
 
+
+    public Community findCommunity(Long id){
+        Community community = em.find(Community.class, id);
+        return community;
+    }
+
 }
