@@ -17,7 +17,7 @@ public class Community {
     @Setter
     private LocalDateTime date;
     @Setter
-    private String content;
+    private String title;
     @Lob @Setter
     @Column(length = 50000000)
     private byte[] communityPicture;
