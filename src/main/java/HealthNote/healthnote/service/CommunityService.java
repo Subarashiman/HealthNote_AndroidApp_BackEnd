@@ -2,6 +2,7 @@ package HealthNote.healthnote.service;
 
 import HealthNote.healthnote.community_dto.CommunitySaveDto;
 import HealthNote.healthnote.community_dto.Community_ID_Boolean;
+import HealthNote.healthnote.community_dto.EncodingImageDto;
 import HealthNote.healthnote.domain.Community;
 import HealthNote.healthnote.domain.Member;
 import HealthNote.healthnote.repository.CommunityRepository;
@@ -15,6 +16,9 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.Base64;
+import java.util.List;
 
 @Service
 @Slf4j
@@ -47,7 +51,9 @@ public class CommunityService {
         //커뮤니티에 사진 저장하기
         if(csd.getCommunityPicture()!=null){
             MultipartFile picture = csd.getCommunityPicture();
-            community.setCommunityPicture(picture.getBytes());
+            byte[] pictureBytes = picture.getBytes();
+            String encodingPictureString = Base64.getEncoder().encodeToString(pictureBytes);
+            community.setCommunityPicture(encodingPictureString);
         }
 
         //커뮤니티 저장
@@ -65,6 +71,30 @@ public class CommunityService {
         int goodCount = findCommunity.getGoodCount();
         findCommunity.setGoodCount(goodCount+1);
         return findCommunity.getGoodCount();
+    }
+
+
+
+    //해당 user의 게시판 이미지들 넘기기 기능
+    public List<EncodingImageDto> UserCommunityImages(Long id){
+        List<Community> communities = communityRepository.findMemberCommunity(id);
+        //해당 유저가 게시글이 하나도 없을 경우.(게시글 이미지가 없을 경우)
+        if(communities.isEmpty()){
+            return null;
+        }
+        List<EncodingImageDto> communityImages = new ArrayList<>();
+
+        for (Community community : communities) {
+            String encodingImage = community.getCommunityPicture();
+            if(encodingImage.isEmpty()){
+                return null;
+            }
+            int goodCount = community.getGoodCount();
+            EncodingImageDto image = new EncodingImageDto(encodingImage,goodCount);
+            communityImages.add(image);
+        }
+        return communityImages;
+
     }
 
 

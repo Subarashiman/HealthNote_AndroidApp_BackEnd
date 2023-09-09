@@ -3,6 +3,7 @@ package HealthNote.healthnote.controller;
 import HealthNote.healthnote.community_dto.CommunitySaveDto;
 import HealthNote.healthnote.community_dto.CommunitySaveResponseDto;
 import HealthNote.healthnote.community_dto.Community_ID_Boolean;
+import HealthNote.healthnote.community_dto.EncodingImageDto;
 import HealthNote.healthnote.domain.Member;
 import HealthNote.healthnote.repository.MemberRepository;
 import HealthNote.healthnote.service.CommunityService;
@@ -10,15 +11,16 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
-import org.springframework.http.MediaType;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.awt.*;
 import java.io.IOException;
+import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
+@Slf4j
 public class CommunityController {
 
     private final CommunityService communityService;
@@ -45,24 +47,46 @@ public class CommunityController {
     }
 
     //게시글 좋아요
-    @GetMapping("/community/")
+    @GetMapping("/community")
     public GoodCountDTO GoodCountAdd(@RequestParam("communityId")Long communityId){
         int goodCount = communityService.GoodCountAdd(communityId);
         return new GoodCountDTO(goodCount,200);
     }
 
 
+
     //마이페이지 해당 유저에 게시판 이미지들을 리스트로 넘기기(순서대로)
     // memberPK를 받으면 해당 유저에 게시판 이미지들을 리스트로 넘기기.
-
-
-
+    @GetMapping("/community/user/image")
+    public UserCommunityImages MemberCommunityImage(@RequestParam("memberId")Long id){
+        List<EncodingImageDto> encodingImages = communityService.UserCommunityImages(id);
+        if(encodingImages == null){
+            return new UserCommunityImages(null,0,200);
+        }
+        int imageSize = encodingImages.size();
+        return new UserCommunityImages(encodingImages,imageSize,200);
+    }
 
 
 
     //전체 게시판 게시글 10개씩 끊어서 데이터 넘겨주기(sns메인)
 
 
+
+
+
+    @Getter@Setter
+    public static class UserCommunityImages{
+        private List<EncodingImageDto> encodingImages;
+        private int encodingImageCount;
+        private int code;
+
+        public UserCommunityImages(List<EncodingImageDto> encodingImages, int encodingImageCount,int code) {
+            this.encodingImages = encodingImages;
+            this.encodingImageCount = encodingImageCount;
+            this.code = code;
+        }
+    }
 
 
     @Getter@Setter

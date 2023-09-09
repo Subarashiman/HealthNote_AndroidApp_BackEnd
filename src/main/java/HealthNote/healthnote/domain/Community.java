@@ -19,8 +19,8 @@ public class Community {
     @Setter
     private String title;
     @Lob @Setter
-    @Column(length = 50000000)
-    private byte[] communityPicture;
+    @Column(length = 5000000)
+    private String communityPicture;
     @Setter
     private int goodCount;
 
