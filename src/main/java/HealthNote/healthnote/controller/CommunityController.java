@@ -1,9 +1,6 @@
 package HealthNote.healthnote.controller;
 
-import HealthNote.healthnote.community_dto.CommunitySaveDto;
-import HealthNote.healthnote.community_dto.CommunitySaveResponseDto;
-import HealthNote.healthnote.community_dto.Community_ID_Boolean;
-import HealthNote.healthnote.community_dto.EncodingImageDto;
+import HealthNote.healthnote.community_dto.*;
 import HealthNote.healthnote.domain.Member;
 import HealthNote.healthnote.repository.MemberRepository;
 import HealthNote.healthnote.service.CommunityService;
@@ -70,8 +67,34 @@ public class CommunityController {
 
 
     //전체 게시판 게시글 10개씩 끊어서 데이터 넘겨주기(sns메인)
+    //10개씩 끊어서 넘겨주기 최근 부터 이후 날짜 데이터로  ---> 전체게시판 테이블에서 게시판PK로 10개씩 끊어서 넘겨주기
+    //				-----> 넘겨야 할 데이터(유저 사진, 유저이름, 게시판 사진, 타이틀, 좋아요 수)
+    @GetMapping("/community/all")
+    public CommunityAll CommunityAllBy10(@RequestParam("front")int front){
+        List<CommunityDto> communityDtos = communityService.CommunityAllByTen(front);
+        if(communityDtos == null){
+            return new CommunityAll(null,200,0);
+        }
+
+        return new CommunityAll(communityDtos,200,communityDtos.size());
+    }
 
 
+
+
+
+    @Getter @Setter
+    public static class CommunityAll{
+        private List<CommunityDto> communities;
+        private int code;
+        private int CommunityCount;
+
+        public CommunityAll(List<CommunityDto> communities, int code,int CommunityCount) {
+            this.communities = communities;
+            this.code = code;
+            this.CommunityCount =CommunityCount;
+        }
+    }
 
 
 

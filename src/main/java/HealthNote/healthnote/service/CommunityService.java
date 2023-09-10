@@ -1,5 +1,6 @@
 package HealthNote.healthnote.service;
 
+import HealthNote.healthnote.community_dto.CommunityDto;
 import HealthNote.healthnote.community_dto.CommunitySaveDto;
 import HealthNote.healthnote.community_dto.Community_ID_Boolean;
 import HealthNote.healthnote.community_dto.EncodingImageDto;
@@ -94,7 +95,24 @@ public class CommunityService {
             communityImages.add(image);
         }
         return communityImages;
+    }
 
+
+    //전체 게시판 게시글 10개씩 끊어서 데이터 넘겨주기 기능
+    //넘겨야 할 데이터(유저 사진, 유저이름, 게시판 사진, 타이틀, 좋아요 수, 게시글 id(PK))
+    public List<CommunityDto> CommunityAllByTen(int front){
+        List<CommunityDto> communityDtos = communityRepository.findCommunityAllByTen(front);
+        if(communityDtos == null){
+            return null;
+        }
+
+        //유저 사진이 없을 경우 null값 넣어주기
+        for (CommunityDto communityDto : communityDtos) {
+            if(communityDto.getUserImage() == null){
+                communityDto.setUserImage(null);
+            }
+        }
+        return communityDtos;
     }
 
 

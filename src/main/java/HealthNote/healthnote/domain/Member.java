@@ -22,8 +22,8 @@ public class Member {
     @Setter
     private String userName;
     @Lob @Setter
-    @Column(length = 50000000)
-    private byte[] userImage;
+    @Column(length = 5000000)
+    private String userImage;
     @Setter
     private String introduction;
     @Setter

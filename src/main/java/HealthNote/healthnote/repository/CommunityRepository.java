@@ -1,5 +1,6 @@
 package HealthNote.healthnote.repository;
 
+import HealthNote.healthnote.community_dto.CommunityDto;
 import HealthNote.healthnote.domain.Community;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
@@ -31,5 +32,24 @@ public class CommunityRepository {
                 .setParameter("id",id)
                 .getResultList();
     }
+
+
+    //10개씩 끊어서 넘겨주기 최근 부터 이후 날짜 데이터로  ---> 전체게시판 테이블에서 게시판PK로 10개씩 끊어서 넘겨주기
+    //				-----> 넘겨야 할 데이터(유저 사진, 유저이름, 게시판 사진, 타이틀, 좋아요 수, 게시글 id(PK))
+    public List<CommunityDto> findCommunityAllByTen(int front){
+        Long totalCommunityCount = (Long) em.createQuery("select count(c) from Community c").getSingleResult();
+        if(totalCommunityCount == 0){
+            return null;
+        }
+        int maxResults = Math.min(10, totalCommunityCount.intValue());
+
+        return em.createQuery("select new HealthNote.healthnote.community_dto.CommunityDto(" +
+                "m.userImage,m.userName,c.communityPicture,c.title,c.goodCount,c.id)"
+                +" from Community c join c.member m order by c.id desc ")
+                .setFirstResult(front)
+                .setMaxResults(maxResults)
+                .getResultList();
+    }
+
 
 }
