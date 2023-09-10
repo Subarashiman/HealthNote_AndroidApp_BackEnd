@@ -17,7 +17,6 @@ public class ExerciseSet {
     @Setter
     private int weight;
 
-    @Setter
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "exercise_id")
     private Exercise exercise;

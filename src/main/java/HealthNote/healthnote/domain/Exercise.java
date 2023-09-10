@@ -20,7 +20,6 @@ public class Exercise {
     @Setter
     private int setCount;
 
-    @Setter
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "exerciselog_id")
     private ExerciseLog exerciseLog;
@@ -30,7 +29,7 @@ public class Exercise {
 
 
     //연관관계 메서드
-    public void setMyExercise(ExerciseLog exerciseLog){
+    public void setExerciseLog(ExerciseLog exerciseLog){
         this.exerciseLog = exerciseLog;
         exerciseLog.getExercises().add(this);
     }
