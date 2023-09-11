@@ -124,7 +124,7 @@ public class CommunityController {
 
     private final MemberRepository memberRepository;
     //멤버 저장 테스트
-    @GetMapping("/")
+    @GetMapping("/add")
     public String TestMemberSave(){
         Member member = new Member();
         member.setUserName("홍길동");

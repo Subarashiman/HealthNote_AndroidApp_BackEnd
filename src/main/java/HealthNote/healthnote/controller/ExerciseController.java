@@ -6,9 +6,7 @@ import HealthNote.healthnote.exercise_dto.ExerciseSuccessDto;
 import HealthNote.healthnote.service.ExerciseService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequiredArgsConstructor
@@ -31,6 +29,21 @@ public class ExerciseController {
         return new ExerciseSuccessDto(checkSuccess,200,"성공적으로 저장되었습니다.");
 
     }
+
+
+
+    //설정창(데이터초기화)   ---->  유저 고유 id(PK) 프론트가 넘겨주면  해당 유저의 운동기록 초기화(삭제)
+    @DeleteMapping("/exercise")
+    public ExerciseSuccessDto deleteExerciseLog(@RequestParam("memberId")Long id){
+        boolean success = exerciseService.deleteAllExerciseLog(id);
+        return new ExerciseSuccessDto(success,200,"삭제되었습니다.");
+    }
+
+
+
+
+
+
 
 
 

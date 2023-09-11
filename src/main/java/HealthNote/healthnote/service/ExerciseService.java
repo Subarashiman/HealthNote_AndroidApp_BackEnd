@@ -76,11 +76,30 @@ public class ExerciseService {
         //for문이 돌고나면 운동에 세트들이 리스트로 담기고, 운동들이 리스트에 담김---> 운동 로그 엔티티에 운동 리스트 넣기
         exerciseLog.setExercises(exercises);
 
-
-        boolean success = exerciseRepository.saveExerciseLog(exerciseLog);
-
-
-        return success;
+        return exerciseRepository.saveExerciseLog(exerciseLog);
     }
+
+
+
+
+    // 유저 고유 id(PK) 프론트가 넘겨주면  해당 유저의 운동기록 초기화(삭제)
+    public boolean deleteAllExerciseLog(Long id){
+        return exerciseRepository.deleteExerciseLog(id);
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 }
