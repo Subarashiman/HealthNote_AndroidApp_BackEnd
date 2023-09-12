@@ -13,5 +13,4 @@ public class ExerciseLogDto {
     private int totalWeight;
     private List<ExerciseDto> exerciseDtos;
 
-
 }

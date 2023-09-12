@@ -5,15 +5,12 @@ import HealthNote.healthnote.domain.Exercise;
 import HealthNote.healthnote.domain.ExerciseLog;
 import HealthNote.healthnote.domain.ExerciseSet;
 import HealthNote.healthnote.domain.Member;
-import HealthNote.healthnote.exercise_dto.ExerciseDto;
-import HealthNote.healthnote.exercise_dto.ExerciseLogDto;
-import HealthNote.healthnote.exercise_dto.ExerciseSetDto;
+import HealthNote.healthnote.exercise_dto.*;
 import HealthNote.healthnote.repository.ExerciseRepository;
 import HealthNote.healthnote.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -85,6 +82,241 @@ public class ExerciseService {
     // 유저 고유 id(PK) 프론트가 넘겨주면  해당 유저의 운동기록 초기화(삭제)
     public boolean deleteAllExerciseLog(Long id){
         return exerciseRepository.deleteExerciseLog(id);
+    }
+
+
+
+
+    //홈화면(이번주 운동)
+    //일주일치(주간) -----> ex) 오늘이 화요일이면 월,화만 넘겨주고 나머지 false. (컬렉션 사용? 인덱스7개해서)
+    //운동완료 여부, 운동 시간
+    public ExerciseWeekDto WeekExerciseData(Long id){
+        if(memberRepository.findOne(id)==null){
+            return null;
+        }
+
+        ExerciseWeekDto exerciseWeekDto = new ExerciseWeekDto();
+        LocalDate currentDate = LocalDate.now();
+        String currentDayOfWeek = currentDate.getDayOfWeek().toString(); //오늘 요일을 가져옴
+
+        //만약 운동기록이 하나도 존재하지 않는 경우 바로 리턴
+        List<ExerciseLog> firstCheckExerciseLogs = exerciseRepository.pickWeekExerciseLog(id, 1);
+        if(firstCheckExerciseLogs == null) {
+            return NoExerciseLogData();
+        }
+
+        //운동기록이 하나라도 존재할 경우.
+        boolean[] dayCheck = new boolean[7];
+        int totalTime=0,totalWeight=0; int i = 0;
+        switch (currentDayOfWeek){
+            case "MONDAY":
+                List<ExerciseLog> exerciseLogs = exerciseRepository.pickWeekExerciseLog(id, 1);
+                for (ExerciseLog exerciseLog : exerciseLogs) {
+                    if(exerciseLog.getExerciseDate().equals(currentDate)){
+                        exerciseWeekDto.setTotalWeekTime(exerciseLog.getTotalTime());
+                        exerciseWeekDto.setTotalWeekWeight(exerciseLog.getTotalWeight());
+                        dayCheck[0] = true;
+                        exerciseWeekDto.setWeekExerciseCheck(dayCheck);
+                        return exerciseWeekDto;
+                    }else{
+                        return NoExerciseLogData();
+                    }
+                }
+                break;
+            //화요일
+            case"TUESDAY":
+                List<ExerciseLog> exerciseLogs1 = exerciseRepository.pickWeekExerciseLog(id, 2);
+
+                for (ExerciseLog exerciseLog : exerciseLogs1){
+                    for(i=0;i<2;i++){
+                        if(exerciseLog.getExerciseDate().equals(currentDate.minusDays(i))){
+                            totalTime += exerciseLog.getTotalTime();
+                            totalWeight += exerciseLog.getTotalWeight();
+                            dayCheck[1-i] = true;
+                            break;
+                        }
+                    }
+                    totalTime += 0;
+                    totalWeight += 0;
+                }
+                exerciseWeekDto.setTotalWeekWeight(totalWeight);
+                exerciseWeekDto.setTotalWeekTime(totalTime);
+                exerciseWeekDto.setWeekExerciseCheck(dayCheck);
+                break;
+            case"WEDNESDAY":
+                List<ExerciseLog> exerciseLogs2 = exerciseRepository.pickWeekExerciseLog(id, 3);
+
+                for (ExerciseLog exerciseLog : exerciseLogs2){
+                    for(i=0;i<3;i++){
+                        if(exerciseLog.getExerciseDate().equals(currentDate.minusDays(i))){
+                            totalTime += exerciseLog.getTotalTime();
+                            totalWeight += exerciseLog.getTotalWeight();
+                            dayCheck[2-i] = true;
+                            break;
+                        }
+                    }
+                    totalTime += 0;
+                    totalWeight += 0;
+                }
+                exerciseWeekDto.setTotalWeekWeight(totalWeight);
+                exerciseWeekDto.setTotalWeekTime(totalTime);
+                exerciseWeekDto.setWeekExerciseCheck(dayCheck);
+                break;
+            case"THURSDAY":
+                List<ExerciseLog> exerciseLogs3 = exerciseRepository.pickWeekExerciseLog(id, 4);
+
+                for (ExerciseLog exerciseLog : exerciseLogs3){
+                    for(i=0;i<4;i++){
+                        if(exerciseLog.getExerciseDate().equals(currentDate.minusDays(i))){
+                            totalTime += exerciseLog.getTotalTime();
+                            totalWeight += exerciseLog.getTotalWeight();
+                            dayCheck[3-i] = true;
+                            break;
+                        }
+                    }
+                    totalTime += 0;
+                    totalWeight += 0;
+                }
+                exerciseWeekDto.setTotalWeekWeight(totalWeight);
+                exerciseWeekDto.setTotalWeekTime(totalTime);
+                exerciseWeekDto.setWeekExerciseCheck(dayCheck);
+                break;
+            case"FRIDAY":
+                List<ExerciseLog> exerciseLogs4 = exerciseRepository.pickWeekExerciseLog(id, 5);
+
+                for (ExerciseLog exerciseLog : exerciseLogs4){
+                    for(i=0;i<5;i++){
+                        if(exerciseLog.getExerciseDate().equals(currentDate.minusDays(i))){
+                            totalTime += exerciseLog.getTotalTime();
+                            totalWeight += exerciseLog.getTotalWeight();
+                            dayCheck[4-i] = true;
+                            break;
+                        }
+                    }
+                    totalTime += 0;
+                    totalWeight += 0;
+                }
+                exerciseWeekDto.setTotalWeekWeight(totalWeight);
+                exerciseWeekDto.setTotalWeekTime(totalTime);
+                exerciseWeekDto.setWeekExerciseCheck(dayCheck);
+                break;
+            case"SATURDAY":
+                List<ExerciseLog> exerciseLogs5 = exerciseRepository.pickWeekExerciseLog(id, 6);
+
+                for (ExerciseLog exerciseLog : exerciseLogs5){
+                    for(i=0;i<6;i++){
+                        if(exerciseLog.getExerciseDate().equals(currentDate.minusDays(i))){
+                            totalTime += exerciseLog.getTotalTime();
+                            totalWeight += exerciseLog.getTotalWeight();
+                            dayCheck[5-i] = true;
+                            break;
+                        }
+                    }
+                    totalTime += 0;
+                    totalWeight += 0;
+                }
+                exerciseWeekDto.setTotalWeekWeight(totalWeight);
+                exerciseWeekDto.setTotalWeekTime(totalTime);
+                exerciseWeekDto.setWeekExerciseCheck(dayCheck);
+
+                break;
+            case"SUNDAY":
+                List<ExerciseLog> exerciseLogs6 = exerciseRepository.pickWeekExerciseLog(id, 7);
+
+                for (ExerciseLog exerciseLog : exerciseLogs6){
+                    for(i=0;i<7;i++){
+                        if(exerciseLog.getExerciseDate().equals(currentDate.minusDays(i))){
+                            totalTime += exerciseLog.getTotalTime();
+                            totalWeight += exerciseLog.getTotalWeight();
+                            dayCheck[6-i] = true;
+                            break;
+                        }
+                    }
+                    totalTime += 0;
+                    totalWeight += 0;
+                }
+                exerciseWeekDto.setTotalWeekWeight(totalWeight);
+                exerciseWeekDto.setTotalWeekTime(totalTime);
+                exerciseWeekDto.setWeekExerciseCheck(dayCheck);
+                break;
+        }
+
+        return exerciseWeekDto;
+    }
+
+
+
+    //1) 30일치 운동 Date만 넘겨주기(프론트에서 memberPK 넘겨 받음)
+    public LocalDate[] MonthExercsieDate(Long id){
+        List<ExerciseLog> exerciseLogs = exerciseRepository.MonthExerciseLogData(id);
+        if(exerciseLogs == null)return null;
+
+        LocalDate[] logDates = new LocalDate[exerciseLogs.size()];
+        int i=0;
+        for (ExerciseLog exerciseLog : exerciseLogs) {
+            logDates[i] = exerciseLog.getExerciseDate();
+            i++;
+        }
+        return logDates;
+    }
+
+
+    //2) 클릭한 그 날의 운동 데이터만 넘겨주기(프론트에서 memberPK, Date받기)
+    public ExerciseLogDto DayExerciseLogData(Long id, LocalDate date){
+        ExerciseLog exerciseLog = exerciseRepository.DayExerciseData(id, date);
+        if(exerciseLog == null){
+            return null;
+        }
+        ExerciseLogDto exerciseLogDto = new ExerciseLogDto();
+        exerciseLogDto.setTotalTime(exerciseLog.getTotalTime());
+        exerciseLogDto.setTotalWeight(exerciseLog.getTotalWeight());
+        exerciseLogDto.setMemberId(id);
+
+        //엔티티에 운동이랑 세트 옮기기.
+        List<Exercise> exercises = exerciseLog.getExercises();
+        List<ExerciseDto> exerciseDtos = new ArrayList<>();
+        for (Exercise exercise : exercises) {
+            ExerciseDto exerciseDto = new ExerciseDto();
+            exerciseDto.setExerciseName(exercise.getExerciseName());
+
+            List<ExerciseSet> exerciseSets = exercise.getExerciseSets();
+            List<ExerciseSetDto> exerciseSetDtos = new ArrayList<>();
+            for (ExerciseSet exerciseSet : exerciseSets) {
+                ExerciseSetDto exerciseSetDto = new ExerciseSetDto();
+                exerciseSetDto.setCount(exerciseSet.getCount());
+                exerciseSetDto.setWeight(exerciseSet.getWeight());
+                exerciseSetDtos.add(exerciseSetDto);
+            }
+            exerciseDto.setExerciseSetDtos(exerciseSetDtos);
+            exerciseDtos.add(exerciseDto);
+        }
+        exerciseLogDto.setExerciseDtos(exerciseDtos);
+
+        return exerciseLogDto;
+
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+    //주간 운동기록이 없을 경우 반환하는 메서드.
+    private ExerciseWeekDto NoExerciseLogData(){
+        ExerciseWeekDto exerciseWeekDto = new ExerciseWeekDto();
+        exerciseWeekDto.setTotalWeekTime(0);
+        exerciseWeekDto.setTotalWeekWeight(0);
+        boolean[]booleans = new boolean[7];
+        for(int i=0;i<7;i++)booleans[i]=false;
+        exerciseWeekDto.setWeekExerciseCheck(booleans);
+        return exerciseWeekDto;
     }
 
 

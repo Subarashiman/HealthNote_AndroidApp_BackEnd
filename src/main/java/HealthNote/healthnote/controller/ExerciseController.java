@@ -1,12 +1,13 @@
 package HealthNote.healthnote.controller;
 
-import HealthNote.healthnote.domain.ExerciseLog;
-import HealthNote.healthnote.exercise_dto.ExerciseLogDto;
-import HealthNote.healthnote.exercise_dto.ExerciseSuccessDto;
+import HealthNote.healthnote.exercise_dto.*;
 import HealthNote.healthnote.service.ExerciseService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
+
+import java.time.LocalDate;
+import java.time.format.DateTimeParseException;
 
 @RestController
 @RequiredArgsConstructor
@@ -40,6 +41,62 @@ public class ExerciseController {
     }
 
 
+
+    //홈화면(이번주 운동)
+    //일주일치(주간) -----> ex) 오늘이 화요일이면 월,화만 넘겨주고 나머지 null. (컬렉션 사용? 인덱스7개해서)
+    //운동완료 여부, 운동 시간
+    @GetMapping("/exercise/week")
+    public ExerciseWeekDto WeekExerciseData(@RequestParam("memberId")Long memberId){
+        ExerciseWeekDto exerciseWeekDto = exerciseService.WeekExerciseData(memberId);
+        if(exerciseWeekDto == null){
+            ExerciseWeekDto failExerciseWeekDto = new ExerciseWeekDto();
+            failExerciseWeekDto.setCode(400); failExerciseWeekDto.setSuccess(false);
+            return failExerciseWeekDto;
+        }
+        exerciseWeekDto.setSuccess(true);
+        exerciseWeekDto.setCode(200);
+        return exerciseWeekDto;
+    }
+
+
+
+
+
+    //1) 30일치 운동 Date만 넘겨주기(프론트에서 memberPK 넘겨 받음)
+    @GetMapping("/exercise/month")
+    public ExerciseMonthDto MonthExerciseData(@RequestParam("memberId")Long id){
+        LocalDate[] localDates = exerciseService.MonthExercsieDate(id);
+
+        return new ExerciseMonthDto(localDates,true,200);
+    }
+
+
+
+
+    //2) 클릭한 그 날의 운동 데이터만 넘겨주기(프론트에서 memberPK, Date받기)
+    @GetMapping("/exercise/day")
+    public ExerciseLogDto DayExerciseLog(@RequestParam("memberId")Long id,
+                                         @RequestParam("date")String date){
+        try {
+            LocalDate localDate = LocalDate.parse(date);
+
+            //해당회원이 없거나, 잘못된 정보가 들어온 경우.
+            ExerciseLogDto exerciseLogDto = exerciseService.DayExerciseLogData(id, localDate);
+            if (exerciseLogDto == null) {
+                ExerciseLogDto exerciseLogDto1 = new ExerciseLogDto();
+                exerciseLogDto1.setExerciseDtos(null);
+                exerciseLogDto1.setTotalWeight(0);
+                exerciseLogDto1.setMemberId(id);
+                exerciseLogDto1.setTotalTime(0);
+                return exerciseLogDto1;
+            }
+            return exerciseLogDto;
+        }catch (DateTimeParseException e){
+            ExerciseLogErrorDto exerciseLogDtoError = new ExerciseLogErrorDto();
+            exerciseLogDtoError.setError("Invalid date format. Please use yyyy-MM-dd.");
+            return exerciseLogDtoError;
+        }
+    }
 
 
 
