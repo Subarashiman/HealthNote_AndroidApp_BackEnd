@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <!----======== CSS ======== -->
+    <link rel="stylesheet" href="adminPage.css">
+     
+    <!----===== Iconscout CSS ===== -->
+    <link rel="stylesheet" href="https://unicons.iconscout.com/release/v4.0.0/css/line.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="icon" href="/image/favicon.ico">  <!--파비콘-->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
+
+    <title>Health Note Admin Page</title> 
+</head>
+<body>
+    <nav id="first_nav">
+        <div class="logo-name">
+            <div class="logo-image">
+                <img src="/image/dumbell.jpg">
+            </div>
+            <div>
+                <div id="log_name_margin" class="logo_name">Health&nbsp;Note</div>
+                <div class="logo_name">Admin&nbsp;Page</div>
+            </div>
+        </div>
+
+        <div class="menu-items">
+            <ul class="nav-links" style="padding-left: 12px;">
+                <li><a href="adminPage.html">
+                    <i class="fa-solid fa-chart-line"></i>
+                    <span class="link-name">대시 보드</span>
+                </a></li>
+
+                
+                <li><a href="adminPage2.html">
+                    <i class="fa-solid fa-users-line"></i>
+                    <span class="link-name">회원 관리</span>
+                </a></li>
+
+
+                <li><a href="adminPage3.html">
+                    <i class="fa-solid fa-comments"></i>
+                    <span class="link-name">게시판 관리</span>
+                </a></li>
+
+
+                <li><a href="adminPage4.html">
+                    <i class="fa-solid fa-dumbbell"></i>
+                    <span class="link-name"style="color:blueviolet;">운동 라이브러리</span>
+                </a></li>
+            </ul>
+            
+            <ul class="logout-mode">
+                <li><a id="logout" href="index.html">    <!--로그 아웃-->
+                    <i class="uil uil-signout"></i>
+                    <span class="link-name">Logout</span>
+                </a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <section class="dashboard">
+        <div id="top_fixed">
+            <img src="/image/banner.jpg"><!--상단 이미지-->
+            
+            <nav id="second_nav">
+                <a href="adminPage4.html">운동 삭제</a>
+                <a href="adminPage4_create.html" style="font-weight: bold;">운동 추가</a>
+                <div class="animation start-home"></div>
+                <a><i style="margin-left: 300px;" class="fa-solid fa-dumbbell"></i></a>
+            </nav>
+        </div>
+
+        <!-- 데이터 들어가는 공간 -->
+
+        
+    </section>
+</body>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.min.js" integrity="sha384-Rx+T1VzGupg4BHQYs2gCW9It+akI2MM/mndMCy36UVfodzcJcF0GGLxZIzObiEfa" crossorigin="anonymous"></script>
+
+</html>
