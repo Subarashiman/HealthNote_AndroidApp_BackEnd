@@ -47,18 +47,19 @@ public class MemberRepository {
 
 
 
-    public boolean findByUserIdAndEmail(String userId, String email) {
-        TypedQuery<String> query = em.createQuery("SELECT m.userPass FROM Member m WHERE m.userId = :userId AND m.email = :email", String.class);
-        query.setParameter("userId", userId);
-        query.setParameter("email", email);
-
+    public Member findByUserIdAndEmail(String userId, String email) {
         try {
-            String userPass = query.getSingleResult();
-            return userPass != null; // userPass가 존재하면 true, 그렇지 않으면 false 반환
+            TypedQuery<Member> query = em.createQuery("SELECT m FROM Member m WHERE m.userId = :userId AND m.email = :email", Member.class);
+            query.setParameter("userId", userId);
+            query.setParameter("email", email);
+
+            return query.getSingleResult();
         } catch (NoResultException ex) {
-            return false; // 조회 결과가 없으면 false 반환
+            // 예외가 발생한 경우, 쿼리 결과가 없는 경우
+            return null;
         }
     }
+
 
 
     public Member findByEmail(String email) {
