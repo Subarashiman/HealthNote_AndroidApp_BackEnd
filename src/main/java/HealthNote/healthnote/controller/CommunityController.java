@@ -122,20 +122,4 @@ public class CommunityController {
         }
     }
 
-    private final MemberRepository memberRepository;
-    //멤버 저장 테스트
-    @GetMapping("/add")
-    public String TestMemberSave(){
-        Member member = new Member();
-        member.setUserName("홍길동");
-        member.setUserPass("123456");
-        member.setEmail("test@naver.com");
-        member.setUserId("testid");
-        memberRepository.save(member);
-        return "완료";
-
-    }
-
-
-
 }

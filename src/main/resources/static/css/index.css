@@ -6,16 +6,16 @@
 }
 @font-face {
     font-family: 'MyFont';
-    src: url('/font/death_note_font.ttf') format('truetype');
+    src: url('death_note_font.ttf') format('truetype');
 }
 @font-face {
     font-family: 'MyFont2';
-    src: url('/font/death_note_font2.ttf') format('truetype');
+    src: url('death_note_font2.ttf') format('truetype');
 }
 .wrapper{
     background: #ececec;
     padding: 0 20px 0 20px;
-    background-image: url("/image/background.jpg");
+    background-image: url("background.jpg");
     background-repeat: no-repeat;
     background-size: cover;
 }
@@ -26,7 +26,7 @@
     min-height: 100vh;
 }
 .side-image{
-    background-image: url("/image/login_background.jpg");
+    background-image: url("login_background.jpg");
     background-position: center;
     background-size: cover;
     background-repeat: no-repeat;

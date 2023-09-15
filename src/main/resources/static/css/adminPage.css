@@ -8,11 +8,11 @@
 }
 @font-face {
     font-family: 'MyFont';
-    src: url("/font/death_note_font.ttf") format('truetype');
+    src: url("death_note_font.ttf") format('truetype');
 }
 @font-face {
     font-family: 'MyFont2';
-    src: url("/font/death_note_font2.ttf") format('truetype');
+    src: url("death_note_font2.ttf") format('truetype');
 }
 
 :root{
