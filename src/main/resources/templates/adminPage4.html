@@ -30,32 +30,32 @@
 
         <div class="menu-items">
             <ul class="nav-links" style="padding-left: 12px;">
-                <li><a th:href="@{adminPage}" href="adminPage.html">
+                <li><a th:href="@{/adminPage}" href="adminPage.html">
                     <i class="fa-solid fa-chart-line"></i>
                     <span class="link-name">대시 보드</span>
                 </a></li>
 
                 
-                <li><a th:href="@{adminPage2}" href="adminPage2.html">
+                <li><a th:href="@{/adminPage2}" href="adminPage2.html">
                     <i class="fa-solid fa-users-line"></i>
                     <span class="link-name">회원 관리</span>
                 </a></li>
 
 
-                <li><a th:href="@{adminPage3}" href="adminPage3.html">
+                <li><a th:href="@{/adminPage3}" href="adminPage3.html">
                     <i class="fa-solid fa-comments"></i>
                     <span class="link-name">게시판 관리</span>
                 </a></li>
 
 
-                <li><a th:href="@{adminPage4}" href="adminPage4.html">
+                <li><a th:href="@{/adminPage4}" href="adminPage4.html">
                     <i class="fa-solid fa-dumbbell"></i>
                     <span class="link-name"style="color:blueviolet;">운동 라이브러리</span>
                 </a></li>
             </ul>
             
             <ul class="logout-mode">
-                <li><a id="logout" th:href="@{index}" href="index.html">    <!--로그 아웃-->
+                <li><a id="logout" th:href="@{/logout}" href="index.html">    <!--로그 아웃-->
                     <i class="uil uil-signout"></i>
                     <span class="link-name">Logout</span>
                 </a></li>
@@ -68,8 +68,8 @@
             <img th:src="@{/css/banner.jpg}" src="/css/banner.jpg"><!--상단 이미지-->
             
             <nav id="second_nav">
-                <a th:href="@{adminPage4}" href="adminPage4.html" style="font-weight: bold;">운동 삭제</a>
-                <a th:href="@{adminPage4_create}" href="adminPage4_create.html">운동 추가</a>
+                <a th:href="@{/adminPage4}" href="adminPage4.html" style="font-weight: bold;">운동 삭제</a>
+                <a th:href="@{/adminPage4_create}" href="adminPage4_create.html">운동 추가</a>
                 <div class="animation start-home"></div>
                 <a><i style="margin-left: 300px;" class="fa-solid fa-dumbbell"></i></a>
             </nav>
