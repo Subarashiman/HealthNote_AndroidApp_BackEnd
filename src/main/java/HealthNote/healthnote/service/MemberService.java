@@ -2,10 +2,16 @@ package HealthNote.healthnote.service;
 
 import HealthNote.healthnote.Member_dto.*;
 import HealthNote.healthnote.domain.Member;
+import HealthNote.healthnote.domain.WithdrawalMember;
+import HealthNote.healthnote.repository.CommunityRepository;
+import HealthNote.healthnote.repository.ExerciseRepository;
 import HealthNote.healthnote.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 @Service
 @RequiredArgsConstructor
@@ -13,6 +19,8 @@ import org.springframework.transaction.annotation.Transactional;
 public class MemberService {
 
     private final MemberRepository memberRepository;
+    private final ExerciseRepository exerciseRepository;
+    private final CommunityRepository communityRepository;
 
 
     // 회원가입
@@ -23,6 +31,10 @@ public class MemberService {
         member.setUserPass(formDto.getUserPass());
         member.setUserName(formDto.getUserName());
         member.setEmail(formDto.getEmail());
+        LocalDateTime currentDateTime = LocalDateTime.now();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+        String formattedDateTime = currentDateTime.format(formatter);
+        member.setJoinDate(formattedDateTime);
 
         int code = 200;
         // 성공 = 200, ID중복 = 400, EMAIL 중복 = 300, ID & EMAIL 중복 = 500
@@ -104,5 +116,25 @@ public class MemberService {
         } else {
             return new UpdateUserPassDto(400);
         }
+    }
+
+
+
+    //회원탈퇴 기능 서비스
+    public boolean WithdrawalMemberService(Long id){
+        LocalDateTime currentDateTime = LocalDateTime.now();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+        String formattedDateTime = currentDateTime.format(formatter);
+        Member findMember = memberRepository.findOne(id);
+        WithdrawalMember withdrawalMember = new WithdrawalMember();
+        withdrawalMember.setWithdrawalDate(formattedDateTime);
+        withdrawalMember.setUserId(findMember.getUserId());
+        withdrawalMember.setUserPk(id);
+        withdrawalMember.setUserName(findMember.getUserName());
+        memberRepository.saveWithdrawalMember(withdrawalMember);
+        exerciseRepository.deleteExerciseLog(id);
+        communityRepository.deleteCommunity(id);
+        memberRepository.WithdrawalMember(id);
+        return true;
     }
 }

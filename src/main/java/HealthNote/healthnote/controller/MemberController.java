@@ -4,10 +4,7 @@ import HealthNote.healthnote.Member_dto.*;
 import HealthNote.healthnote.domain.Member;
 import HealthNote.healthnote.service.MemberService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.Objects;
 
@@ -33,7 +30,6 @@ public class MemberController {
     }
 
     //아이디 찾기
-
     @PostMapping ("/api/members/find-userId")
     public FindIdDto findUserId(@RequestBody FormDto formDto) {
         Member result = memberService.findUserId(formDto);
@@ -55,5 +51,16 @@ public class MemberController {
     public UpdateUserPassDto updateUserPass(@RequestBody FormDto formDto) {
         return memberService.updateUserPass(formDto);
     }
+
+
+    //회원탈퇴
+    @GetMapping("/api/members/withdrawal")
+    public WithdrawalDto WithdrawalMember(@RequestParam("memberId") Long memberId){
+        boolean success = memberService.WithdrawalMemberService(memberId);
+        return new WithdrawalDto(success,200,"탈퇴 완료");
+    }
+
+
+
 
 }

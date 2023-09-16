@@ -1,6 +1,7 @@
 package HealthNote.healthnote.repository;
 
 import HealthNote.healthnote.domain.Member;
+import HealthNote.healthnote.domain.WithdrawalMember;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.NoResultException;
 import jakarta.persistence.PersistenceContext;
@@ -71,6 +72,20 @@ public class MemberRepository {
         } catch (NoResultException ex) {
             return null; // 이메일에 해당하는 회원이 없는 경우
         }
+    }
+
+
+
+
+    //회원 탈퇴
+    public void WithdrawalMember(Long id){
+        em.createQuery("delete from Member m where m.id=:id")
+                .setParameter("id",id)
+                .executeUpdate();
+    }
+    //탈퇴회원 탈퇴 테이블에 저장하기
+    public void saveWithdrawalMember(WithdrawalMember withdrawalMember){
+        em.persist(withdrawalMember);
     }
 
 

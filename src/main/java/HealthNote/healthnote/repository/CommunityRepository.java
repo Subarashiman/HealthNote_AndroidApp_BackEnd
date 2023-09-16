@@ -52,4 +52,14 @@ public class CommunityRepository {
     }
 
 
+
+
+    //해당 회원의 게시글 전체 삭제
+    public void deleteCommunity(Long id){
+        em.createQuery("delete from Community c where c.member.id=:id")
+                .setParameter("id",id)
+                .executeUpdate();
+    }
+
+
 }
