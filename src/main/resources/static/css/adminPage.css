@@ -186,6 +186,7 @@ body.dark{
     width: 100%;
     position: relative;
     position: fixed;
+    z-index: 10;
 }
 .dashboard img{
     width: 100%;height: 110px;
