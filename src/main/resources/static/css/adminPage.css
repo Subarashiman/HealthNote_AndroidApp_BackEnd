@@ -177,7 +177,7 @@ body.dark{
     flex-direction: column;
     position: relative;
     left: 250px;
-    background-color: var(--panel-color);
+    background-color: #FFF;
     min-height: 100vh;
     width: calc(100% - 250px);
     transition: var(--tran-05);

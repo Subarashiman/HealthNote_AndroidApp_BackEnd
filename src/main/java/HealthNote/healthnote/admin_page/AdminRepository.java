@@ -1,6 +1,9 @@
 package HealthNote.healthnote.admin_page;
 
+import HealthNote.healthnote.admin_page.dto.AdminCommunityDto;
 import HealthNote.healthnote.domain.Admin;
+import HealthNote.healthnote.domain.Community;
+import HealthNote.healthnote.domain.Member;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import lombok.extern.slf4j.Slf4j;
@@ -22,6 +25,27 @@ public class AdminRepository {
         return em.createQuery("select a from Admin a where a.adminId =:id")
                 .setParameter("id",id)
                 .getResultList();
+    }
+
+    //모든 유저 찾아서 리스트로 반환
+    public List<Member> findAllMember(){
+        return em.createQuery("select m from Member m")
+                .getResultList();
+    }
+
+
+    //모든 게시글 찾아서 리스트로 반환
+    public List<AdminCommunityDto> findAllCommunity(){
+        return em.createQuery("select new HealthNote.healthnote.admin_page.dto.AdminCommunityDto(c.id,c.date,c.communityPicture,c.title,c.goodCount,m.userId) " +
+                        "from Community c join Member m on c.member.id=m.id")
+                .getResultList();
+    }
+
+    //해당 게시글 삭제
+    public void deleteCommunity(Long id){
+        em.createQuery("delete from Community c where c.id=:id")
+                .setParameter("id",id)
+                .executeUpdate();
     }
 
 

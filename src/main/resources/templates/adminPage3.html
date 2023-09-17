@@ -7,6 +7,7 @@
     
     <!----======== CSS ======== -->
     <link rel="stylesheet" th:href="@{/css/adminPage.css}" href="../static/css/adminPage.css">
+    <link rel="stylesheet" th:href="@{/table/table.css}">
      
     <!----===== Iconscout CSS ===== -->
     <link rel="stylesheet" th:href="@{https://unicons.iconscout.com/release/v4.0.0/css/line.css}" href="https://unicons.iconscout.com/release/v4.0.0/css/line.css">
@@ -64,24 +65,107 @@
     </nav>
 
     <section class="dashboard">
-        <div id="top_fixed">
-            <img th:src="@{/css/banner.jpg}" src="/css/banner.jpg"><!--상단 이미지-->
+        <img th:src="@{/css/banner.jpg}" src="/css/banner.jpg"><!--상단 이미지-->
             
-            <nav id="second_nav">
+        <nav id="second_nav">
                 <a th:href="@{/adminPage3}" href="adminPage3.html"style="font-weight: bold;">게시판 관리</a>
                 <div class="animation start-home"></div>
                 <a><i style="margin-left: 300px;" class="fa-solid fa-comments"></i></a>
-            </nav>
-        </div>
+        </nav>
 
+        <main class="table">
+            <section class="table__header">
+                <h5 style="font-weight: bold;padding-left: 10px;">Community List</h5>
+                <div class="input-group">
+                    <input type="search" placeholder="Search Data...🔍"/>
+                </div>
+            </section>
+            <section class="table__body">
+                <table>
+                    <thead>
+                    <tr>
+                        <th> Pk <span class="icon-arrow">&UpArrow;</span></th>
+                        <th> Contents <span class="icon-arrow">&UpArrow;</span></th>
+                        <th> UserId <span class="icon-arrow">&UpArrow;</span></th>
+                        <th> writeDate <span class="icon-arrow">&UpArrow;</span></th>
+                        <th> goodCount <span class="icon-arrow">&UpArrow;</span></th>
+                        <th> Delete <span class="icon-arrow">&UpArrow;</span></th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="adminCommunityDto:${communities}">
+                        <td th:text="${adminCommunityDto.getId()}">1</td>
+                        <td>
+                            <img style="border-radius:0; width:80px;height: 80px;" th:src="${'data:image/jpg;base64,'+adminCommunityDto.getCommunityPicture()}"/>
+                            <span th:text="${adminCommunityDto.getTitle()}">title</span>
+                        </td>
+                        <td th:text="${adminCommunityDto.getUserId()}">UserId</td>
+                        <td th:text="${adminCommunityDto.getDate()}">Date</td>
+                        <td>
+                            <p class="status delivered" th:text="${adminCommunityDto.getGoodCount()}">goodCount</p>
+                        </td>
+                        <td ><a style="text-decoration: none; color: white; background: #da4141; border-radius: 5px;" th:href="@{/admin/community/delete(Pk=${adminCommunityDto.getId()})}">게시글 삭제</a></td>
+                    </tr>
+                    </tbody>
+                </table>
+            </section>
+        </main>
 
-
-        <!-- 데이터 들어가는 공간 -->
-
-        
     </section>
 </body>
 <script th:src="@{https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js}" src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
 <script th:src="@{https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.min.js}" src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.min.js" integrity="sha384-Rx+T1VzGupg4BHQYs2gCW9It+akI2MM/mndMCy36UVfodzcJcF0GGLxZIzObiEfa" crossorigin="anonymous"></script>
+<script>
+    const search = document.querySelector('.input-group input'),
+        table_rows = document.querySelectorAll('tbody tr'),
+        table_headings = document.querySelectorAll('thead th');
 
+    // 1. Searching for specific data of HTML table
+    search.addEventListener('input', searchTable);
+
+    function searchTable() {
+        table_rows.forEach((row, i) => {
+            let customer_name = row.querySelector('td:nth-child(3)').textContent.toLowerCase(), // 두 번째 열(고객 이름)을 가져옵니다.
+                search_data = search.value.toLowerCase();
+
+            row.classList.toggle('hide', customer_name.indexOf(search_data) < 0);
+            row.style.setProperty('--delay', i / 25 + 's');
+        })
+
+        document.querySelectorAll('tbody tr:not(.hide)').forEach((visible_row, i) => {
+            visible_row.style.backgroundColor = (i % 2 == 0) ? 'transparent' : '#0000000b';
+        });
+    }
+
+    // 2. Sorting | Ordering data of HTML table
+
+    table_headings.forEach((head, i) => {
+        let sort_asc = true;
+        head.onclick = () => {
+            table_headings.forEach(head => head.classList.remove('active'));
+            head.classList.add('active');
+
+            document.querySelectorAll('td').forEach(td => td.classList.remove('active'));
+            table_rows.forEach(row => {
+                row.querySelectorAll('td')[i].classList.add('active');
+            })
+
+            head.classList.toggle('asc', sort_asc);
+            sort_asc = head.classList.contains('asc') ? false : true;
+
+            sortTable(i, sort_asc);
+        }
+    })
+
+
+    function sortTable(column, sort_asc) {
+        [...table_rows].sort((a, b) => {
+            let first_row = a.querySelectorAll('td')[column].textContent.toLowerCase(),
+                second_row = b.querySelectorAll('td')[column].textContent.toLowerCase();
+
+            return sort_asc ? (first_row < second_row ? 1 : -1) : (first_row < second_row ? -1 : 1);
+        })
+            .map(sorted_row => document.querySelector('tbody').appendChild(sorted_row));
+    }
+</script>
 </html>

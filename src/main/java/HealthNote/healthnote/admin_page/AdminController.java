@@ -1,6 +1,8 @@
 package HealthNote.healthnote.admin_page;
 
+import HealthNote.healthnote.admin_page.dto.AdminCommunityDto;
 import HealthNote.healthnote.admin_page.dto.AdminLoginDto;
+import HealthNote.healthnote.admin_page.dto.AdminMemberDto;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
@@ -10,6 +12,9 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+
+import java.util.List;
 
 
 @Controller
@@ -54,22 +59,41 @@ public class AdminController {
             return "adminPage";
         }
     }
-    //adminPage2로 보냄.(회원관리 페이지)
+
+    //adminPage2로 보냄.(회원관리 페이지) ____모든 맴버를 다 뽑아서 넘겨줌.
     @GetMapping("/adminPage2")
-    public String AdminPage2(HttpSession httpSession){
+    public String AdminPage2(HttpSession httpSession,Model model){
         if(loginChecking(httpSession)) {
+            List<AdminMemberDto> members = adminService.AllMemberList();
+            model.addAttribute("members",members);
             return "adminPage2";
         }
         return "redirect:/";
     }
-    //adminPage3로 보냄.(게시판 관리 페이지)
+    //유저 삭제 메서드
+    @GetMapping("/admin/user/delete")
+    public String deleteUser(@RequestParam("Pk")Long id){
+        adminService.deleteUser(id);
+        return "redirect:/adminPage2";
+    }
+
+    //adminPage3로 보냄.(게시판 관리 페이지) _______모든 게시글 뽑아서 넘겨줌.
     @GetMapping("/adminPage3")
-    public String AdminPage3(HttpSession httpSession){
+    public String AdminPage3(HttpSession httpSession,Model model){
         if(loginChecking(httpSession)){
+            List<AdminCommunityDto> communities = adminService.findAllCommunity();
+            model.addAttribute("communities",communities);
             return "adminPage3";
         }
         return "redirect:/";
     }
+    //해당 게시글 삭제하기.
+    @GetMapping("/admin/community/delete")
+    public String deleteCommunity(@RequestParam("Pk")Long id){
+        adminService.deleteCommunity(id);
+        return "redirect:/adminPage3";
+    }
+
     //adminPage4로 보냄.(운동 라이브러리 페이지)
     @GetMapping("/adminPage4")
     public String AdminPage4(HttpSession httpSession){
@@ -92,9 +116,6 @@ public class AdminController {
         httpSession.invalidate();
         return "redirect:/";
     }
-
-
-
 
 
 
