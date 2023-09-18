@@ -1,8 +1,6 @@
 package HealthNote.healthnote.admin_page;
 
-import HealthNote.healthnote.admin_page.dto.AdminCommunityDto;
-import HealthNote.healthnote.admin_page.dto.AdminLoginDto;
-import HealthNote.healthnote.admin_page.dto.AdminMemberDto;
+import HealthNote.healthnote.admin_page.dto.*;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
@@ -51,11 +49,13 @@ public class AdminController {
     }
     //세션을 확인 후 메인 화면으로 보냄. 세션이 없으면 로그인 화면으로 보냄.
     @GetMapping("/adminPage")
-    public String MainAdminPage(HttpSession httpSession){
+    public String MainAdminPage(HttpSession httpSession, Model model){
         Object session = httpSession.getAttribute("adminId");
         if(session==null){
             return "redirect:/";
         }else{
+            MainPageDto allDataCountDto = adminService.findAllDataCount();
+            model.addAttribute("dataCountDto",allDataCountDto);
             return "adminPage";
         }
     }
@@ -117,6 +117,47 @@ public class AdminController {
         return "redirect:/";
     }
 
+    //대시보드_______가입자 리스트______ 모든 유저 끌고오기(가입날짜 필수)
+    @GetMapping("/adminPage_usingUser")
+    public String usingUserList(HttpSession httpSession,Model model){
+        if(loginChecking(httpSession)){
+            List<usingUserDto> joinUsers = adminService.findAllJoinUser();
+            model.addAttribute("joinUsers",joinUsers);
+            return "adminPage_usingUser";
+        }
+        return "redirect:/";
+    }
+
+    //대시보드_______탈퇴자 리스트
+    @GetMapping("/adminPage_deleteUser")
+    public String deleteUserList(HttpSession httpSession,Model model){
+        if(loginChecking(httpSession)){
+            List<OutMemberDto> outUsers = adminService.findWithdrawalMember();
+            model.addAttribute("outUsers",outUsers);
+            return "adminPage_deleteUser";
+        }
+        return "redirect:/";
+    }
+
+    //대시보드_______게시글 리스트
+    @GetMapping("/adminPage_communityList")
+    public String CommunityList(HttpSession httpSession,Model model){
+        if(loginChecking(httpSession)){
+            List<AdminCommunityListDto> communityList = adminService.findAllCommunityList();
+            model.addAttribute("communityList",communityList);
+            return "adminPage_communityList";
+        }
+        return "redirect:/";
+    }
+
+    //대시보드_______운동 리스트
+    @GetMapping("/adminPage_exerciseList")
+    public String exerciseList(HttpSession httpSession,Model model){
+        if(loginChecking(httpSession)){
+            return "adminPage_exerciseList";
+        }
+        return "redirect:/";
+    }
 
 
 

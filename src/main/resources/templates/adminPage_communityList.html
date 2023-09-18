@@ -4,24 +4,25 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    
+
     <!----======== CSS ======== -->
     <link rel="stylesheet" th:href="@{/css/adminPage.css}" href="../static/css/adminPage.css">
-    <link rel="stylesheet" th:href="@{/table/table.css}">
-     
+    <link rel="stylesheet" th:href="@{/table/table.css}"/>
+
     <!----===== Iconscout CSS ===== -->
     <link rel="stylesheet" th:href="@{https://unicons.iconscout.com/release/v4.0.0/css/line.css}" href="https://unicons.iconscout.com/release/v4.0.0/css/line.css">
     <link rel="stylesheet" th:href="@{https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css}" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-    <link rel="icon" th:href="@{/css/favicon.ico}" href="/css/favicon.ico">  <!--파비콘-->
-    <link th:href="@{https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css}" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
+    <link rel="icon" th:href="@{/css/favicon.ico}" href="/css/contents/image/favicon.ico">  <!--파비콘-->
+    <link th:href="@{https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css}"
+            href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
 
-    <title>Health Note Admin Page</title> 
+    <title>Health Note Admin Page</title>
 </head>
 <body>
     <nav id="first_nav">
         <div class="logo-name">
             <div class="logo-image">
-                <img th:src="@{/css/dumbell.jpg}" src="/css/dumbell.jpg">
+                <img th:src="@{/css/dumbell.jpg}" src="/static/css/dumbell.jpg">
             </div>
             <div>
                 <div id="log_name_margin" class="logo_name">Health&nbsp;Note</div>
@@ -31,12 +32,12 @@
 
         <div class="menu-items">
             <ul class="nav-links" style="padding-left: 12px;">
-                <li><a th:href="@{adminPage}" href="adminPage.html">
+                <li><a th:href="@{/adminPage}" href="adminPage.html">
                     <i class="fa-solid fa-chart-line"></i>
-                    <span class="link-name">대시 보드</span>
+                    <span class="link-name" style="color:blueviolet;">대시 보드</span>
                 </a></li>
 
-                
+
                 <li><a th:href="@{/adminPage2}" href="adminPage2.html">
                     <i class="fa-solid fa-users-line"></i>
                     <span class="link-name">회원 관리</span>
@@ -45,7 +46,7 @@
 
                 <li><a th:href="@{/adminPage3}" href="adminPage3.html">
                     <i class="fa-solid fa-comments"></i>
-                    <span class="link-name"style="color:blueviolet;">게시판 관리</span>
+                    <span class="link-name">게시판 관리</span>
                 </a></li>
 
 
@@ -54,9 +55,9 @@
                     <span class="link-name">운동 관리</span>
                 </a></li>
             </ul>
-            
+
             <ul class="logout-mode">
-                <li><a id="logout" th:href="@{/logout}" href="index.html">   <!--로그 아웃-->
+                <li><a id="logout" th:href="@{/logout}" href="index.html">   <!--로그 아웃 주소-->
                     <i class="uil uil-signout"></i>
                     <span class="link-name">Logout</span>
                 </a></li>
@@ -65,56 +66,64 @@
     </nav>
 
     <section class="dashboard">
-        <img th:src="@{/css/banner.jpg}" src="/css/banner.jpg"><!--상단 이미지-->
-            
-        <nav id="second_nav">
-                <a th:href="@{/adminPage3}" href="adminPage3.html"style="font-weight: bold;">게시글 관리 리스트</a>
-                <div class="animation start-home"></div>
-                <a><i style="margin-left: 300px;" class="fa-solid fa-comments"></i></a>
-        </nav>
+            <img th:src="@{/css/banner.jpg}"/><!--상단 이미지-->
 
+            <nav id="second_nav">
+                <a th:href="@{/adminPage}" href="#">통계</a>
+                <a th:href="@{/adminPage_usingUser}" href="#">가입자 확인</a>
+                <a th:href="@{/adminPage_deleteUser}" href="#">탈퇴자 확인</a>
+                <a th:href="@{/adminPage_communityList}" href="#" style="font-weight: bold;">게시글 확인</a>
+                <a th:href="@{/adminPage_exerciseList}" href="#">운동 확인</a>
+                <div class="animation start-home"></div>
+                <a><i style="margin-left: 300px;" class="fa-solid fa-chart-line"></i></a>
+            </nav>
+
+        <!-- 데이터 들어가는 공간 -->
+        <!--테이블-->
         <main class="table">
             <section class="table__header">
-                <h5 style="font-weight: bold;padding-left: 10px;">Community List</h5>
+                <h5 style="font-weight: bold;padding-left: 10px;">게시글 List___최근 게시일순</h5>
                 <div class="input-group">
-                    <input type="search" placeholder="Search UserId...🔍"/>
+                    <input type="search" placeholder="Search WriteDate...🔍"/>
                 </div>
             </section>
             <section class="table__body">
                 <table>
                     <thead>
                     <tr>
-                        <th> Pk <span class="icon-arrow">&UpArrow;</span></th>
-                        <th> Contents <span class="icon-arrow">&UpArrow;</span></th>
-                        <th> UserId <span class="icon-arrow">&UpArrow;</span></th>
-                        <th> writeDate <span class="icon-arrow">&UpArrow;</span></th>
-                        <th> goodCount <span class="icon-arrow">&UpArrow;</span></th>
-                        <th> Delete <span class="icon-arrow">&UpArrow;</span></th>
+                        <th> Pk </th>
+                        <th> WriteDate <span class="icon-arrow">&UpArrow;</span></th>
+                        <th> Title </th>
+                        <th> GoodCount </th>
+                        <th> UserId </th>
+                        <th> Authority </th>
                     </tr>
                     </thead>
                     <tbody>
-                    <tr th:if="${communities == null or #lists.isEmpty(communities)}">
+                    <tr th:if="${communityList == null or #lists.isEmpty(communityList)}">
                         <td colspan="6">
-                            게시물이 존재하지 않습니다.
+                            게시글이 존재하지 않습니다.
                         </td>
                     </tr>
-                    <tr th:each="adminCommunityDto:${communities}" th:if="${communities != null}">
-                        <td th:text="${adminCommunityDto.getId()}">1</td>
-                        <td>
-                            <img style="border-radius:0; width:80px;height: 80px;" th:src="${'data:image/jpg;base64,'+adminCommunityDto.getCommunityPicture()}"/>
-                            <span th:text="${adminCommunityDto.getTitle()}">title</span>
+                    <tr th:each="adminCommunity:${communityList}" th:if="${communityList != null}">
+                        <td th:text="${adminCommunity.getPk()}">1</td>
+                        <td style="text-align: center">
+                            <span th:text="${adminCommunity.getWriteDate()}">게시일자</span>
                         </td>
-                        <td th:text="${adminCommunityDto.getUserId()}">UserId</td>
-                        <td th:text="${adminCommunityDto.getDate()}">Date</td>
+                        <td th:text="${adminCommunity.getTitle()}">게시글 내용</td>
+                        <td th:text="${adminCommunity.getGoodCount()}">좋아요 수</td>
                         <td>
-                            <p class="status delivered" th:text="${adminCommunityDto.getGoodCount()}">goodCount</p>
+                            <p th:text="${adminCommunity.getUserId()}" class="status delivered">유저아이디</p>
                         </td>
-                        <td ><a style="text-decoration: none; color: white; background: #da4141; border-radius: 5px;" th:href="@{/admin/community/delete(Pk=${adminCommunityDto.getId()})}">게시글 삭제</a></td>
+                        <td> USER </td>
                     </tr>
                     </tbody>
                 </table>
             </section>
         </main>
+
+
+
 
     </section>
 </body>
@@ -130,7 +139,7 @@
 
     function searchTable() {
         table_rows.forEach((row, i) => {
-            let customer_name = row.querySelector('td:nth-child(3)').textContent.toLowerCase(), // 두 번째 열(고객 이름)을 가져옵니다.
+            let customer_name = row.querySelector('td:nth-child(2)').textContent.toLowerCase(), // 두 번째 열(고객 이름)을 가져옵니다.
                 search_data = search.value.toLowerCase();
 
             row.classList.toggle('hide', customer_name.indexOf(search_data) < 0);
@@ -143,9 +152,10 @@
     }
 
     // 2. Sorting | Ordering data of HTML table
+    let columnToSort = 1; // 두 번째 열을 정렬하도록 설정
+    let ascendingOrder = true; // 초기 정렬 순서를 오름차순으로 설정
 
     table_headings.forEach((head, i) => {
-        let sort_asc = true;
         head.onclick = () => {
             table_headings.forEach(head => head.classList.remove('active'));
             head.classList.add('active');
@@ -155,10 +165,11 @@
                 row.querySelectorAll('td')[i].classList.add('active');
             })
 
-            head.classList.toggle('asc', sort_asc);
-            sort_asc = head.classList.contains('asc') ? false : true;
+            ascendingOrder = !ascendingOrder; // 정렬 순서를 토글
 
-            sortTable(i, sort_asc);
+            head.classList.toggle('asc', ascendingOrder);
+
+            sortTable(columnToSort, ascendingOrder); // 두 번째 열을 기준으로 정렬
         }
     })
 

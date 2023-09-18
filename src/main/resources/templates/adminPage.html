@@ -51,7 +51,7 @@
 
                 <li><a th:href="@{/adminPage4}" href="adminPage4.html">
                     <i class="fa-solid fa-dumbbell"></i>
-                    <span class="link-name">운동 라이브러리</span>
+                    <span class="link-name">운동 관리</span>
                 </a></li>
             </ul>
 
@@ -70,17 +70,58 @@
 
             <nav id="second_nav">
                 <a th:href="@{/adminPage}" href="#" style="font-weight: bold;">통계</a>
-                <a href="#">가입자 확인</a>
-                <a href="#">탈퇴자 확인</a>
-                <a href="#">게시글 확인</a>
-                <a href="#">운동 확인</a>
+                <a th:href="@{/adminPage_usingUser}" href="#">이용자 확인</a>
+                <a th:href="@{/adminPage_deleteUser}" href="#">탈퇴자 확인</a>
+                <a th:href="@{/adminPage_communityList}" href="#">게시글 확인</a>
+                <a th:href="@{/adminPage_exerciseList}" href="#">운동 확인</a>
                 <div class="animation start-home"></div>
                 <a><i style="margin-left: 300px;" class="fa-solid fa-chart-line"></i></a>
             </nav>
         </div>
 
-
         <!-- 데이터 들어가는 공간 -->
+        <div class="dash-content">
+            <div class="overview">
+                <div class="title">
+                    <i class="uil uil-tachometer-fast-alt"></i>
+                    <span class="text">Dashboard</span>
+                </div>
+
+                <div class="boxes">
+                    <div class="box box1 glow">
+                        <i class="fa-solid fa-users"></i>
+                        <span class="text">총 가입유저</span>
+                        <span class="number" th:text="${dataCountDto.getTotalUserCount()+'명'}">50,120명</span>
+                    </div>
+                    <div class="box box2 glow">
+                        <i class="fa-solid fa-user-plus"></i>
+                        <span class="text">이용유저</span>
+                        <span class="number"th:text="${dataCountDto.getUsingUserCount()+'명'}">20,120명</span>
+                    </div>
+                    <div class="box box3 glow">
+                        <i class="fa-solid fa-user-minus"></i>
+                        <span class="text">탈퇴유저</span>
+                        <span class="number"th:text="${dataCountDto.getOutUserCount()+'명'}">10,120명</span>
+                    </div>
+                    <div class="box box4 glow">
+                        <i class="fa-regular fa-comments"></i>
+                        <span class="text">게시글 개수</span>
+                        <span class="number"th:text="${dataCountDto.getCommunityCount()+'개'}">10,120개</span>
+                    </div>
+                    <div class="box box5 glow">
+                        <i class="fa-solid fa-dumbbell"></i>
+                        <span class="text">운동 개수</span>
+                        <span class="number"th:text="${dataCountDto.getExerciseCount()+'개'}">10,120개</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="activity">
+
+            </div>
+        </div>
+
+
 
 
 

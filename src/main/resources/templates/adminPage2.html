@@ -51,7 +51,7 @@
 
                 <li><a th:href="@{/adminPage4}" href="adminPage4.html">
                     <i class="fa-solid fa-dumbbell"></i>
-                    <span class="link-name">운동 라이브러리</span>
+                    <span class="link-name">운동 관리</span>
                 </a></li>
             </ul>
             
@@ -79,9 +79,9 @@
         <!--테이블-->
         <main class="table">
             <section class="table__header">
-                <h5 style="font-weight: bold;padding-left: 10px;">List</h5>
+                <h5 style="font-weight: bold;padding-left: 10px;">회원관리 리스트</h5>
                 <div class="input-group">
-                    <input type="search" placeholder="Search Data...🔍"/>
+                    <input type="search" placeholder="Search UserName...🔍"/>
                 </div>
             </section>
             <section class="table__body">
@@ -97,7 +97,12 @@
                     </tr>
                     </thead>
                     <tbody>
-                    <tr th:each="adminMemberDto:${members}">
+                    <tr th:if="${members == null or #lists.isEmpty(members)}">
+                        <td colspan="6">
+                            회원이 존재하지 않습니다.
+                        </td>
+                    </tr>
+                    <tr th:each="adminMemberDto:${members}" th:if="${members != null}">
                         <td th:text="${adminMemberDto.getPk()}">1</td>
                         <td>
                             <img th:src="${adminMemberDto.getUserImage() != null ? 'data:image/jpg;base64,' + adminMemberDto.getUserImage() : '/table/Rony.jpg'}" alt="User Image"/>

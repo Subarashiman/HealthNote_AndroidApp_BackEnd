@@ -1,8 +1,6 @@
 package HealthNote.healthnote.admin_page;
 
-import HealthNote.healthnote.admin_page.dto.AdminCommunityDto;
-import HealthNote.healthnote.admin_page.dto.AdminLoginDto;
-import HealthNote.healthnote.admin_page.dto.AdminMemberDto;
+import HealthNote.healthnote.admin_page.dto.*;
 import HealthNote.healthnote.domain.Admin;
 import HealthNote.healthnote.domain.Community;
 import HealthNote.healthnote.domain.Member;
@@ -17,7 +15,9 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -85,6 +85,75 @@ public class AdminService {
     }
 
 
+    //가입자 전부 가져오기(이용회원 + 가입날짜)
+    public List<usingUserDto> findAllJoinUser(){
+        List<Member> members = adminRepository.findAllMember();
+        List<Member> sortedMembers = members.stream()
+                .sorted(Comparator.comparing(Member::getJoinDate).reversed())
+                .collect(Collectors.toList());
+        List<usingUserDto> users = new ArrayList<>();
+
+        for (Member member : sortedMembers) {
+            usingUserDto usingUserDto = new usingUserDto();
+            usingUserDto.setPk(member.getId());
+            usingUserDto.setUserId(member.getUserId());
+            usingUserDto.setUserName(member.getUserName());
+            usingUserDto.setUserEmail(member.getEmail());
+            usingUserDto.setJoinDate(member.getJoinDate());
+            users.add(usingUserDto);
+        }
+        return users;
+    }
+
+
+    //탈퇴자 전부 가져오기___(관리자페이지 탈퇴자 리스트)
+    public List<OutMemberDto> findWithdrawalMember(){
+        List<WithdrawalMember> outMembers = adminRepository.findAllWithdrawMember();
+        List<WithdrawalMember> sortedOutMembers = outMembers.stream()
+                .sorted(Comparator.comparing(WithdrawalMember::getWithdrawalDate).reversed())
+                .collect(Collectors.toList());
+        List<OutMemberDto>outMemberDtos = new ArrayList<>();
+
+        for (WithdrawalMember outMember : sortedOutMembers) {
+            OutMemberDto outMemberDto = new OutMemberDto();
+            outMemberDto.setPk(outMember.getId());
+            outMemberDto.setUserPk(outMember.getUserPk());
+            outMemberDto.setUserId(outMember.getUserId());
+            outMemberDto.setUserName(outMember.getUserName());
+            outMemberDto.setWithdrawalDate(outMember.getWithdrawalDate());
+            outMemberDtos.add(outMemberDto);
+        }
+        return outMemberDtos;
+    }
+
+
+
+    //모든 커뮤니티글 최근순으로 정렬해서 보내기____관리자페이지 게시글 확인
+    public List<AdminCommunityListDto> findAllCommunityList(){
+        List<AdminCommunityListDto> communities = adminRepository.findAllCommunityList();
+        List<AdminCommunityListDto> sortedCommunityList = communities.stream()
+                .sorted(Comparator.comparing(AdminCommunityListDto::getWriteDate).reversed())
+                .collect(Collectors.toList());
+        return sortedCommunityList;
+    }
+
+
+    //메인 화면에 유저수, 게시글 수, 운동 개수
+    public MainPageDto findAllDataCount(){
+        int usingUserCount = adminRepository.findUsingUserCount().intValue();
+        int outUserCount = adminRepository.findOutUserCount().intValue();
+        int communityCount = adminRepository.findCommunityCount().intValue();
+        int exerciseCount = adminRepository.findExerciseCount().intValue();
+
+        MainPageDto mainPageDto = new MainPageDto();
+        mainPageDto.setTotalUserCount(usingUserCount+outUserCount);
+        mainPageDto.setUsingUserCount(usingUserCount);
+        mainPageDto.setOutUserCount(outUserCount);
+        mainPageDto.setCommunityCount(communityCount);
+        mainPageDto.setExerciseCount(exerciseCount);
+
+        return mainPageDto;
+    }
 
 
 
