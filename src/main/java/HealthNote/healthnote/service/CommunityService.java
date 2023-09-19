@@ -10,10 +10,15 @@ import HealthNote.healthnote.repository.CommunityRepository;
 import HealthNote.healthnote.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import net.coobird.thumbnailator.Thumbnails;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
+import java.io.ByteArrayOutputStream;
+import java.io.File;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -52,8 +57,13 @@ public class CommunityService {
         //커뮤니티에 사진 저장하기
         if(csd.getCommunityPicture()!=null){
             MultipartFile picture = csd.getCommunityPicture();
-            byte[] pictureBytes = picture.getBytes();
-            String encodingPictureString = Base64.getEncoder().encodeToString(pictureBytes);
+
+            BufferedImage originalImage = ImageIO.read(picture.getInputStream());
+            BufferedImage resizedImage = Thumbnails.of(originalImage)
+                    .size(80, 80)
+                    .asBufferedImage();
+
+            String encodingPictureString = convertImageToBase64(resizedImage, "jpg");
             community.setCommunityPicture(encodingPictureString);
         }
 
@@ -115,5 +125,15 @@ public class CommunityService {
         return communityDtos;
     }
 
+
+
+
+    // 이미지를 Base64 문자열로 변환하는 메서드
+    public static String convertImageToBase64(BufferedImage image, String formatName) throws IOException {
+        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+        ImageIO.write(image, formatName, outputStream);
+        byte[] imageBytes = outputStream.toByteArray();
+        return Base64.getEncoder().encodeToString(imageBytes);
+    }
 
 }

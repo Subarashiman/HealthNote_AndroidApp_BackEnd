@@ -1,0 +1,205 @@
+.dashboard .table *{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: sans-serif;
+}
+
+.dashboard .table {
+    width: 100%;
+    height: 78.7vh;
+    max-height: 60%;
+    background-color: rgba(255, 255, 255, 0.99);
+    backdrop-filter: blur(7px);
+    overflow: hidden;
+    margin-bottom: 0px;
+}
+
+.dashboard .table .table__header {
+    width: 100%;
+    height: 10%;
+    background-color: rgba(255, 255, 255, 0.47);
+    padding: .8rem 1rem;
+    border-radius: 15px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.dashboard .table .table__header .input-group {
+    width: 35%;
+    height: 100%;
+    background-color: lightgray;
+    padding: 0 .8rem;
+    border-radius: 2rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: .2s;
+    margin-right: 30px;
+}
+
+.dashboard .table .table__header .input-group:hover {
+    width: 45%;
+    background-color: #fff8;
+    box-shadow: 0 .1rem .4rem #0002;
+}
+
+.dashboard .table .table__header .input-group input {
+    width: 100%;
+    padding: 0 .5rem 0 .3rem;
+    background-color: transparent;
+    border: none;
+    outline: none;
+    text-align: right;
+}
+
+.dashboard .table .table__body {
+    width: 95%;
+    max-height: calc(89% - 1.6rem);
+    background-color: #fffb;
+
+    margin: .8rem auto 0;
+    overflow: auto;
+}
+
+.dashboard .table .table__body::-webkit-scrollbar{
+    width: 0.5rem;
+    height: 0.5rem;
+}
+
+.dashboard .table .table__body::-webkit-scrollbar-thumb{
+    background-color: #0004;
+    visibility: hidden;
+}
+
+.dashboard .table .table__body:hover::-webkit-scrollbar-thumb{
+    visibility: visible;
+}
+
+
+.dashboard .table table tbody tr td img {
+    width: 50px;
+    height: 50px;
+    margin-right: .5rem;
+    border-radius: 50%;
+    vertical-align: middle;
+}
+.dashboard .table table {
+    width: 100%;
+    border-collapse: collapse;
+    text-align: center;
+}
+.dashboard .table table th,
+.dashboard .table table td {
+    padding: 0.4rem;
+    text-align: center;
+}
+
+.dashboard .table table th:first-child,
+.dashboard .table table td:first-child {
+    width: 8%; /* 1번 열의 너비, 원하는 크기로 조정 */
+}
+
+.dashboard .table table th:nth-child(2){
+    text-align: center;
+}
+.dashboard .table table td:nth-child(2) {
+    width: 22%; /* 2번 열의 너비, 원하는 크기로 조정 */
+    text-align: left;
+}
+
+.dashboard .table table th:not(:first-child):not(:nth-child(2)),
+.dashboard .table table td:not(:first-child):not(:nth-child(2)) {
+    width: 15%; /* 나머지 열의 너비, 원하는 크기로 조정 */
+}
+.dashboard .table table thead th {
+    position: sticky;
+    top: 0;
+    left: 0;
+    background-color: #d5d1defe;
+    cursor: pointer;
+    text-transform: capitalize;
+}
+
+.dashboard .table table thead th {
+    position: sticky;
+    top: 0;
+    left: 0;
+    background-color: #d5d1defe;
+    cursor: pointer;
+    text-transform: capitalize;
+}
+
+.dashboard .table table tbody tr:nth-child(even) {
+    background-color: #0000000b;
+}
+
+.dashboard .table table tbody tr {
+    --delay: .1s;
+    transition: .5s ease-in-out var(--delay), background-color 0s;
+}
+
+.dashboard .table table tbody tr.hide {
+    opacity: 0;
+    transform: translateX(100%);
+}
+
+.dashboard .table table tbody tr:hover {
+    background-color: #dcdcdc;
+}
+
+.dashboard .table table tbody tr td,
+.dashboard .table table tbody tr td p,
+.dashboard .table table tbody tr td img {
+    transition: .2s ease-in-out;
+}
+
+.dashboard .table table tbody tr.hide td,
+.dashboard .table table tbody tr.hide td p {
+    padding: 0;
+    transition: .2s ease-in-out .5s;
+}
+
+.dashboard .table table tbody tr.hide td img {
+    width: 0;
+    height: 0;
+    transition: .2s ease-in-out .5s;
+}
+
+.dashboard .table table tbody tr td .status {
+    text-align: center;
+}
+
+.dashboard .table table thead th span.icon-arrow {
+    display: inline-block;
+    width: 1.3rem;
+    height: 1.3rem;
+    border-radius: 50%;
+    border: 1.4px solid transparent;
+    text-align: center;
+    font-size: 1rem;
+    margin-left: .5rem;
+    transition: .2s ease-in-out;
+}
+
+.dashboard .table table thead th:hover span.icon-arrow{
+    border: 1.4px solid #6c00bd;
+}
+
+.dashboard .table table thead th:hover {
+    color: #6c00bd;
+}
+
+.dashboard .table table thead th.active span.icon-arrow{
+    background-color: #6c00bd;
+    color: #fff;
+}
+
+.dashboard .table table thead th.asc span.icon-arrow{
+    transform: rotate(180deg);
+}
+
+.dashboard .table table thead th.active,tbody td.active {
+    color: #6c00bd;
+}

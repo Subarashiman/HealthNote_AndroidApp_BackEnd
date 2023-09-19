@@ -7,6 +7,8 @@
     
     <!----======== CSS ======== -->
     <link rel="stylesheet" th:href="@{/css/adminPage.css}" href="/css/adminPage.css">
+    <link rel="stylesheet" th:href="@{/table/table.css}"/>
+    <link rel="stylesheet" th:href="@{/css/modal.css}"/>
      
     <!----===== Iconscout CSS ===== -->
     <link rel="stylesheet" th:href="@{https://unicons.iconscout.com/release/v4.0.0/css/line.css}" href="https://unicons.iconscout.com/release/v4.0.0/css/line.css">
@@ -30,32 +32,32 @@
 
         <div class="menu-items">
             <ul class="nav-links" style="padding-left: 12px;">
-                <li><a th:href="@{adminPage}" href="adminPage.html">
+                <li><a th:href="@{/adminPage}" href="adminPage.html">
                     <i class="fa-solid fa-chart-line"></i>
                     <span class="link-name">대시 보드</span>
                 </a></li>
 
                 
-                <li><a th:href="@{adminPage2}" href="adminPage2.html">
+                <li><a th:href="@{/adminPage2}" href="adminPage2.html">
                     <i class="fa-solid fa-users-line"></i>
                     <span class="link-name">회원 관리</span>
                 </a></li>
 
 
-                <li><a th:href="@{adminPage3}" href="adminPage3.html">
+                <li><a th:href="@{/adminPage3}" href="adminPage3.html">
                     <i class="fa-solid fa-comments"></i>
                     <span class="link-name">게시판 관리</span>
                 </a></li>
 
 
-                <li><a th:href="@{adminPage4}" href="adminPage4.html">
+                <li><a th:href="@{/adminPage4}" href="adminPage4.html">
                     <i class="fa-solid fa-dumbbell"></i>
-                    <span class="link-name"style="color:blueviolet;">운동 라이브러리</span>
+                    <span class="link-name"style="color:blueviolet;">운동 관리</span>
                 </a></li>
             </ul>
             
             <ul class="logout-mode">
-                <li><a id="logout" th:href="@{index}" href="index.html">    <!--로그 아웃-->
+                <li><a id="logout" th:href="@{/logout}" href="index.html">    <!--로그 아웃-->
                     <i class="uil uil-signout"></i>
                     <span class="link-name">Logout</span>
                 </a></li>
@@ -64,23 +66,207 @@
     </nav>
 
     <section class="dashboard">
-        <div id="top_fixed">
             <img th:src="@{/css/banner.jpg}" src="/css/banner.jpg"><!--상단 이미지-->
             
             <nav id="second_nav">
-                <a th:href="@{adminPage4}" href="adminPage4.html" style="font-weight: bold;">운동 삭제</a>
-                <a th:href="@{adminPage4_create}" href="adminPage4_create.html">운동 추가</a>
+                <a th:href="@{/adminPage4}" href="adminPage4.html" style="font-weight: bold;">운동 수정</a>
+                <a th:href="@{/adminPage4_create}" href="adminPage4_create.html">운동 추가</a>
                 <div class="animation start-home"></div>
                 <a><i style="margin-left: 300px;" class="fa-solid fa-dumbbell"></i></a>
             </nav>
-        </div>
 
 
         <!-- 데이터 들어가는 공간 -->
-        
+        <!--테이블-->
+        <main class="table">
+            <section class="table__header">
+                <h5 style="font-weight: bold;padding-left: 10px;">운동 관리 리스트</h5>
+                <div class="input-group">
+                    <input type="search" placeholder="Search ExerciseName and Category...🔍"/>
+                </div>
+            </section>
+            <section class="table__body">
+                <table>
+                    <thead>
+                    <tr>
+                        <th> Number <span class="icon-arrow">&UpArrow;</span></th>
+                        <th> exerciseExplanation </th>
+                        <th> exerciseName </th>
+                        <th> category </th>
+                        <th> exerciseUrl </th>
+                        <th> Superintend </th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:if="${allLibrary == null or #lists.isEmpty(allLibrary)}">
+                        <td colspan="6">
+                            아직 운동이 존재하지 않습니다.
+                        </td>
+                    </tr>
+                    <tr th:each="adminLibrary:${allLibrary}" th:if="${allLibrary != null}">
+                        <td th:text="${adminLibrary.getExerciseNumber()}">운동 넘버</td>
+                        <td style="text-align: center;overflow: hidden;">
+                            <span th:text="${adminLibrary.getExerciseExplanation()}">운동 설명</span>
+                        </td>
+                        <td th:text="${adminLibrary.getExerciseName()}">운동 이름</td>
+                        <td th:text="${adminLibrary.getExerciseCategory()}">카테고리</td>
+                        <td th:text="${adminLibrary.getExerciseUrl()}">url</td>
+                        <td><button class="btn_lib green" onclick="openModal(this)">수정</button>&nbsp;&nbsp;&nbsp;&nbsp;
+                            <a style="text-decoration: none; border: 2px solid black" th:href="@{/library/delete(Pk=${adminLibrary.getExerciseNumber()})}"class="btn_lib red">삭제</a></td>
+                    </tr>
+                    </tbody>
+                </table>
+            </section>
+        </main>
+
+
+
     </section>
+
+    <!-- 모달 창 -->
+    <div id="myModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal()">&times;</span>
+            <h2>운동 수정</h2>
+            <form id="editForm">
+                <!-- 수정할 데이터 입력 필드 추가 -->
+                <input type="hidden" id="hiddenExerciseNumber" name="exerciseNumber">
+                <br>
+                <label for="exerciseName">운동 이름:</label>
+                <input type="text" id="exerciseName" name="exerciseName">
+                <br>
+                <label for="exerciseExplanation">운동 설명:</label>
+                <input type="text" id="exerciseExplanation" name="exerciseExplanation">
+                <br>
+                <label for="exerciseUrl">URL:</label>
+                <input type="text" id="exerciseUrl" name="exerciseUrl">
+                <br>
+                <!-- 저장 버튼 -->
+               <div id="btn_save"><button type="submit">수정</button></div>
+            </form>
+        </div>
+    </div>
 </body>
 <script th:src="@{https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js}" src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
 <script th:src="@{https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.min.js}" src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.min.js" integrity="sha384-Rx+T1VzGupg4BHQYs2gCW9It+akI2MM/mndMCy36UVfodzcJcF0GGLxZIzObiEfa" crossorigin="anonymous"></script>
+<script>
+    const search = document.querySelector('.input-group input'),
+        table_rows = document.querySelectorAll('tbody tr'),
+        table_headings = document.querySelectorAll('thead th');
 
+    // 1. Searching for specific data of HTML table
+    search.addEventListener('input', searchTable);
+
+    function searchTable() {
+        table_rows.forEach((row, i) => {
+            let third_column_data = row.querySelector('td:nth-child(3)').textContent.toLowerCase(),
+                fourth_column_data = row.querySelector('td:nth-child(4)').textContent.toLowerCase(),
+                search_data = search.value.toLowerCase();
+
+            // 검색어가 3번째 열 또는 4번째 열에 포함되지 않으면 해당 행 숨기기
+            row.classList.toggle('hide', third_column_data.indexOf(search_data) < 0 && fourth_column_data.indexOf(search_data) < 0);
+            row.style.setProperty('--delay', i / 25 + 's');
+        })
+
+        document.querySelectorAll('tbody tr:not(.hide)').forEach((visible_row, i) => {
+            visible_row.style.backgroundColor = (i % 2 == 0) ? 'transparent' : '#0000000b';
+        });
+    }
+
+    // 2. Sorting | Ordering data of HTML table
+
+    table_headings.forEach((head, i) => {
+        let sort_asc = true;
+        head.onclick = () => {
+            table_headings.forEach(head => head.classList.remove('active'));
+            head.classList.add('active');
+
+            document.querySelectorAll('td').forEach(td => td.classList.remove('active'));
+            table_rows.forEach(row => {
+                row.querySelectorAll('td')[i].classList.add('active');
+            })
+
+            head.classList.toggle('asc', sort_asc);
+            sort_asc = head.classList.contains('asc') ? false : true;
+
+            sortTable(i, sort_asc);
+        }
+    })
+
+
+    function sortTable(column, sort_asc) {
+        [...table_rows].sort((a, b) => {
+            let first_row = a.querySelectorAll('td')[column].textContent.toLowerCase(),
+                second_row = b.querySelectorAll('td')[column].textContent.toLowerCase();
+
+            return sort_asc ? (first_row < second_row ? 1 : -1) : (first_row < second_row ? -1 : 1);
+        })
+            .map(sorted_row => document.querySelector('tbody').appendChild(sorted_row));
+    }
+</script>
+<script>  <!--수정 버튼 동작-->
+    function openModal(button) {
+        let row = button.closest('tr');
+        let exerciseNumber = row.querySelector('td:nth-child(1)').textContent;
+        let exerciseName = row.querySelector('td:nth-child(3)').textContent;
+        let exerciseExplanation = row.querySelector('td:nth-child(2) span').textContent;
+        let exerciseUrl = row.querySelector('td:nth-child(5)').textContent;
+
+        let modal = document.getElementById('myModal');
+        modal.style.display = 'block';
+
+        // 데이터를 모달 창에 설정
+        document.getElementById('exerciseName').value = exerciseName;
+        document.getElementById('exerciseExplanation').value = exerciseExplanation;
+        document.getElementById('exerciseUrl').value = exerciseUrl;
+
+        // Hidden field에 exerciseNumber 값을 설정
+        document.getElementById('hiddenExerciseNumber').value = exerciseNumber;
+
+        // 수정 폼 제출 처리
+        let editForm = document.getElementById('editForm');
+        editForm.addEventListener('submit', function (e) {
+            e.preventDefault();
+            // 여기서 수정된 데이터를 서버로 전송하는 코드
+            // 폼 데이터를 가져오기
+            let formData = new FormData(editForm);
+
+            // FormData를 JSON 형식으로 변환
+            let jsonData = {};
+            formData.forEach((value, key) => {
+                jsonData[key] = value;
+            });
+
+            // 서버 URL 설정
+            let serverUrl = '/library/corrections';
+
+            // 서버로 데이터 전송
+            fetch(serverUrl, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(jsonData), // JSON 데이터로 변환하여 전송
+            })
+                .then(response => {
+                    if (response.ok) {
+                        // 서버 응답이 성공적으로 왔을 때 처리
+                        closeModal(); // 모달 닫기
+                    } else {
+                        // 서버 응답이 실패한 경우에 대한 처리
+                        console.error('서버 응답 오류:', response.status, response.statusText);
+                    }
+                })
+                .catch(error => {
+                    // 네트워크 오류 또는 기타 오류에 대한 처리
+                    console.error('오류 발생:', error);
+                });
+        });
+    }
+
+    function closeModal() {
+        let modal = document.getElementById('myModal');
+        modal.style.display = 'none';
+    }
+</script>
 </html>

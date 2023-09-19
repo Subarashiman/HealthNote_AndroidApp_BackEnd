@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -28,6 +29,13 @@ public class Member {
     private String userImage;
     @Setter
     private String introduction;
+<<<<<<< HEAD
+=======
+    @Setter
+    private String email;
+    @Setter
+    private String joinDate;
+>>>>>>> 5f556d4d9bb9d1089546b01df710ae2850c74e2d
 
 
     @Setter

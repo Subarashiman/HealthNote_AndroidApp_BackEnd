@@ -7,6 +7,7 @@
     
     <!----======== CSS ======== -->
     <link rel="stylesheet" th:href="@{/css/adminPage.css}" href="../static/css/adminPage.css">
+    <link rel="stylesheet" th:href="@{/table/table.css}" href="/table/table.css">
      
     <!----===== Iconscout CSS ===== -->
     <link rel="stylesheet" th:href="@{https://unicons.iconscout.com/release/v4.0.0/css/line.css}" href="https://unicons.iconscout.com/release/v4.0.0/css/line.css">
@@ -30,32 +31,32 @@
 
         <div class="menu-items">
             <ul class="nav-links" style="padding-left: 12px;">
-                <li><a th:href="@{adminPage.html}" href="adminPage.html">
+                <li><a th:href="@{/adminPage}" href="adminPage.html">
                     <i class="fa-solid fa-chart-line"></i>
                     <span class="link-name">대시 보드</span>
                 </a></li>
 
                 
-                <li><a th:href="@{adminPage2.html}" href="adminPage2.html">
+                <li><a th:href="@{/adminPage2}" href="adminPage2.html">
                     <i class="fa-solid fa-users-line"></i>
                     <span class="link-name"style="color:blueviolet;">회원 관리</span>
                 </a></li>
 
 
-                <li><a th:href="@{adminPage3.html}" href="adminPage3.html">
+                <li><a th:href="@{/adminPage3}" href="adminPage3.html">
                     <i class="fa-solid fa-comments"></i>
                     <span class="link-name">게시판 관리</span>
                 </a></li>
 
 
-                <li><a th:href="@{adminPage4.html}" href="adminPage4.html">
+                <li><a th:href="@{/adminPage4}" href="adminPage4.html">
                     <i class="fa-solid fa-dumbbell"></i>
-                    <span class="link-name">운동 라이브러리</span>
+                    <span class="link-name">운동 관리</span>
                 </a></li>
             </ul>
             
             <ul class="logout-mode">
-                <li><a id="logout" th:href="@{index.html}" href="index.html">    <!--로그아웃-->
+                <li><a id="logout" th:href="@{/logout}" href="index.html">    <!--로그아웃-->
                     <i class="uil uil-signout"></i>
                     <span class="link-name">Logout</span>
                 </a></li>
@@ -64,23 +65,63 @@
     </nav>
 
     <section class="dashboard">
-        <div id="top_fixed">
-            <img th:src="@{/css/banner.jpg}" src="/static/css/banner.jpg"><!--상단 이미지-->
-            
-            <nav id="second_nav">
-                <a th:href="@{adminPage2.html}" href="adminPage2.html"style="font-weight: bold;">회원 관리</a>
-                <div class="animation start-home"></div>
-                <a><i style="margin-left: 300px;" class="fa-solid fa-users-line"></i></a>
-            </nav>
-        </div>
+        <!--상단 이미지-->
+        <img th:src="@{/css/banner.jpg}" src="/static/css/banner.jpg">
 
 
-        <!-- 데이터 공간 -->
+        <!-- 두번째 네비바 -->
+        <nav id="second_nav">
+            <a th:href="@{/adminPage2}" href="adminPage2.html"style="font-weight: bold;">회원 관리</a>
+            <div class="animation start-home"></div>
+            <a><i style="margin-left: 300px;" class="fa-solid fa-users-line"></i></a>
+        </nav>
 
-        
+        <!--테이블-->
+        <main class="table">
+            <section class="table__header">
+                <h5 style="font-weight: bold;padding-left: 10px;">회원관리 리스트</h5>
+                <div class="input-group">
+                    <input type="search" placeholder="Search UserName...🔍"/>
+                </div>
+            </section>
+            <section class="table__body">
+                <table>
+                    <thead>
+                    <tr>
+                        <th> Pk <span class="icon-arrow">&UpArrow;</span></th>
+                        <th> UserName <span class="icon-arrow">&UpArrow;</span></th>
+                        <th> UserId <span class="icon-arrow">&UpArrow;</span></th>
+                        <th> UserEmail <span class="icon-arrow">&UpArrow;</span></th>
+                        <th> Authority <span class="icon-arrow">&UpArrow;</span></th>
+                        <th> Delete <span class="icon-arrow">&UpArrow;</span></th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:if="${members == null or #lists.isEmpty(members)}">
+                        <td colspan="6">
+                            회원이 존재하지 않습니다.
+                        </td>
+                    </tr>
+                    <tr th:each="adminMemberDto:${members}" th:if="${members != null}">
+                        <td th:text="${adminMemberDto.getPk()}">1</td>
+                        <td>
+                            <img th:src="${adminMemberDto.getUserImage() != null ? 'data:image/jpg;base64,' + adminMemberDto.getUserImage() : '/table/Rony.jpg'}" alt="User Image"/>
+                            <span th:text="${adminMemberDto.getUserName()}">Zinzu Chan Lee</span>
+                        </td>
+                        <td th:text="${adminMemberDto.getUserId()}">Seoul</td>
+                        <td th:text="${adminMemberDto.getUserEmail()}">17 Dec, 2022</td>
+                        <td>
+                            <p class="status delivered">USER</p>
+                        </td>
+                        <td ><a style="text-decoration: none; color: white; background: #da4141; border-radius: 5px;" th:href="@{/admin/user/delete(Pk=${adminMemberDto.getPk()})}">회원 추방</a></td>
+                    </tr>
+                    </tbody>
+                </table>
+            </section>
+        </main>
     </section>
 </body>
 <script th:src="@{https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js}" src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
 <script th:src="@{https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.min.js}" src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.min.js" integrity="sha384-Rx+T1VzGupg4BHQYs2gCW9It+akI2MM/mndMCy36UVfodzcJcF0GGLxZIzObiEfa" crossorigin="anonymous"></script>
-
+<script th:src="@{/table/table.js}" src="/table/table.js"></script>
 </html>
