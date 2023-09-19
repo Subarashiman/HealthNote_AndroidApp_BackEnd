@@ -6,13 +6,13 @@ import lombok.Setter;
 @Getter @Setter
 public class SignInDto {
     @Setter
-    private Long memberId;
+    private Long id;
     private int code;
 
 
 
     public SignInDto(Long memberId, int code) {
-        this.memberId = memberId;
+        this.id = memberId;
         this.code = code;
     }
 }

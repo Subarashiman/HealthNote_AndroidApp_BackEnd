@@ -21,13 +21,13 @@ public class Member {
     private String userPass;
     @Setter
     private String userName;
+    @Setter
+    private String email;
     @Lob @Setter
     @Column(length = 5000000)
     private String userImage;
     @Setter
     private String introduction;
-    @Setter
-    private String email;
 
 
     @Setter

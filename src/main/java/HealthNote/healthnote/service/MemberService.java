@@ -25,15 +25,15 @@ public class MemberService {
         member.setEmail(formDto.getEmail());
 
         int code = 200;
-        // 성공 = 200, ID중복 = 400, EMAIL 중복 = 300, ID & EMAIL 중복 = 500
+        // 성공 = 200, ID중복 = 300, EMAIL 중복 = 400, ID & EMAIL 중복 = 500
 
         // userId 중복 체크
         if (!validateDuplicateUserId(member.getUserId())) {
-            code += 200;
+            code += 100;
         }
         // email 중복 체크
         if (!validateDuplicateEmail(member.getEmail())) {
-            code += 100;
+            code += 200;
         }
 
         if (code == 200) {
@@ -71,14 +71,8 @@ public class MemberService {
     // 아이디 찾기
     // 파라미터로 받은 email을 DB에서 조회해서 존재하면 해당 id를 클라이언트에게 전달 없으면 메세지 전달
     public Member findUserId(FormDto formDto) {
-        Member member = memberRepository.findByEmail(formDto.getEmail());
-        if (member != null && member.getUserId().equals(formDto.getUserId())) {
-            // 조회한 회원 정보에서 아이디를 추출하여 비교
-            return member;
-        }
-
-        // 이메일이 일치하지 않거나 회원을 찾을 수 없는 경우 실패
-        return null;
+        // formDto로 받은 이메일을 DB에서 검색한 후 해당 객체를 반환
+        return memberRepository.findByEmail(formDto.getEmail());
     }
 
 
@@ -103,6 +97,18 @@ public class MemberService {
             return new UpdateUserPassDto(200);
         } else {
             return new UpdateUserPassDto(400);
+        }
+    }
+
+    // 소개문구 저장
+    public IntroductionDto setUserIntroduction(Long id, String introduction) {
+        Member member = memberRepository.findOne(id);
+        if (member != null) {
+            member.setIntroduction(introduction);
+            memberRepository.save(member);
+            return new IntroductionDto(200);
+        } else {
+            return new IntroductionDto(400);
         }
     }
 }

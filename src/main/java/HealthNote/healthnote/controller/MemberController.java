@@ -4,11 +4,10 @@ import HealthNote.healthnote.Member_dto.*;
 import HealthNote.healthnote.domain.Member;
 import HealthNote.healthnote.service.MemberService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.Objects;
 
 
@@ -19,13 +18,13 @@ public class MemberController {
     private final MemberService memberService;
 
     // 회원가입
-    @PostMapping("/api/members/sign-up")
+    @PostMapping("/api/member/sign-up")
     public SignUpDto signUp(@RequestBody FormDto formDto) {
         return memberService.signUp(formDto);
     }
 
     // 로그인
-    @PostMapping("/api/members/sign-in")
+    @PostMapping("/api/member/sign-in")
     public SignInDto signIn(@RequestBody FormDto formDto) {
         SignInDto result = memberService.signIn(formDto);
         // result가 null이 아니면 result를 반환하고, null이면 new MemberProcessResult(null, 400)을 반환
@@ -33,8 +32,7 @@ public class MemberController {
     }
 
     //아이디 찾기
-
-    @PostMapping ("/api/members/find-userId")
+    @PostMapping("/api/member/find-userId")
     public FindIdDto findUserId(@RequestBody FormDto formDto) {
         Member result = memberService.findUserId(formDto);
         if (result != null) {
@@ -45,15 +43,27 @@ public class MemberController {
     }
 
     // 비밀번호 찾기
-    @PostMapping("/api/members/find-userPass")
+    @PostMapping("/api/member/find-userPass")
     public FindPwDto findUserPass(@RequestBody FormDto formDto) {
         return memberService.findUserPass(formDto);
     }
 
     // 비밀번호 재설정
-    @PostMapping("/api/members/update-userPass")
+    @PostMapping("/api/member/update-userPass")
     public UpdateUserPassDto updateUserPass(@RequestBody FormDto formDto) {
         return memberService.updateUserPass(formDto);
     }
 
+//     회원 대표사진 추가
+//    @PostMapping("/api/member/main-userImage")
+//    public userImageDto userImageDto(@RequestBody MultipartFile img) throws IOException {
+//
+//    }
+
+    // 회원 소개문구 추가
+    @GetMapping
+    public IntroductionDto introductionDto(@RequestParam("id") Long id,
+                                           @RequestParam("introduction") String introduction) {
+        return memberService.setUserIntroduction(id, introduction);
+    }
 }
