@@ -2,7 +2,7 @@ package HealthNote.healthnote.admin_page;
 
 import HealthNote.healthnote.admin_page.dto.*;
 import HealthNote.healthnote.domain.Admin;
-import HealthNote.healthnote.domain.Community;
+import HealthNote.healthnote.domain.Library;
 import HealthNote.healthnote.domain.Member;
 import HealthNote.healthnote.domain.WithdrawalMember;
 import HealthNote.healthnote.repository.MemberRepository;
@@ -11,7 +11,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -156,8 +155,74 @@ public class AdminService {
     }
 
 
+    //운동 목록 다 가져와서 넘겨주기______대시보드(운동 확인)
+    public List<AdminLibraryDto>findAllLibrary(){
+        List<Library> allLibrary = adminRepository.findAllLibrary();
+        List<AdminLibraryDto>adminLibrarys = new ArrayList<>();
+
+        for (Library library : allLibrary) {
+            AdminLibraryDto adminLibraryDto = new AdminLibraryDto();
+            adminLibraryDto.setExerciseNumber(library.getExerciseNumber());
+            adminLibraryDto.setExerciseExplanation(library.getExerciseExplanation());
+            adminLibraryDto.setExerciseName(library.getExerciseName());
+            adminLibraryDto.setExerciseUrl(library.getExerciseUrl());
+            adminLibraryDto.setExerciseCategory(findCategory(library.getExerciseNumber()));
+            adminLibrarys.add(adminLibraryDto);
+        }
+        return adminLibrarys;
+    }
+
+
+    //라이브러리 운동 수정 _____ (adminPage4 운동수정)
+    public void correctionsLibrary(RequestLibraryDto requestLibraryDto){
+        Library findLibrary = adminRepository.findOneLibrary(requestLibraryDto.getExerciseNumber());
+        //운동 정보 변경
+        findLibrary.setExerciseName(requestLibraryDto.getExerciseName());
+        findLibrary.setExerciseUrl(requestLibraryDto.getExerciseUrl());
+        findLibrary.setExerciseExplanation(requestLibraryDto.getExerciseExplanation());
+
+    }
+
+    //라이브러리 운동 삭제_____-(adminPage4 운동삭제)
+    public void deleteLibrary(int id){
+        adminRepository.deleteLibrary(id);
+    }
+    //라이브러리 운동 추가_____(adminPage4 운동추가)
+    public void addLibrary(RequestLibraryDto requestLibraryDto){
+        Library library = new Library();
+        library.setExerciseNumber(requestLibraryDto.getExerciseNumber());
+        library.setExerciseName(requestLibraryDto.getExerciseName());
+        library.setExerciseExplanation(requestLibraryDto.getExerciseExplanation());
+        library.setExerciseUrl(requestLibraryDto.getExerciseUrl());
+
+        adminRepository.addLibrary(library);
+
+    }
 
 
 
+
+
+
+
+
+
+
+    //운동 넘버에 따른 카테고리 분류 메소드
+    public String findCategory(int exerciseNumber){
+        if (100 <= exerciseNumber && exerciseNumber <= 199) {
+            return "하체";
+        } else if (200 <= exerciseNumber && exerciseNumber <= 299) {
+            return "가슴";
+        } else if (300 <= exerciseNumber && exerciseNumber <= 399) {
+            return "등";
+        } else if (400 <= exerciseNumber && exerciseNumber <= 499) {
+            return "어깨";
+        } else if (500 <= exerciseNumber && exerciseNumber <= 599) {
+            return "팔";
+        } else {
+            return "분류할 수 없음";
+        }
+    }
 
 }

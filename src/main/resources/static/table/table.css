@@ -98,20 +98,20 @@
 
 .dashboard .table table th:first-child,
 .dashboard .table table td:first-child {
-    width: 8%; /* 1번 열의 너비, 원하는 크기로 조정하세요 */
+    width: 8%; /* 1번 열의 너비, 원하는 크기로 조정 */
 }
 
 .dashboard .table table th:nth-child(2){
     text-align: center;
 }
 .dashboard .table table td:nth-child(2) {
-    width: 22%; /* 2번 열의 너비, 원하는 크기로 조정하세요 */
+    width: 22%; /* 2번 열의 너비, 원하는 크기로 조정 */
     text-align: left;
 }
 
 .dashboard .table table th:not(:first-child):not(:nth-child(2)),
 .dashboard .table table td:not(:first-child):not(:nth-child(2)) {
-    width: 15%; /* 나머지 열의 너비, 원하는 크기로 조정하세요 */
+    width: 15%; /* 나머지 열의 너비, 원하는 크기로 조정 */
 }
 .dashboard .table table thead th {
     position: sticky;

@@ -7,6 +7,7 @@
 
     <!----======== CSS ======== -->
     <link rel="stylesheet" th:href="@{/css/adminPage.css}" href="../static/css/adminPage.css">
+    <link rel="stylesheet" th:href="@{/table/table.css}"/>
 
     <!----===== Iconscout CSS ===== -->
     <link rel="stylesheet" th:href="@{https://unicons.iconscout.com/release/v4.0.0/css/line.css}" href="https://unicons.iconscout.com/release/v4.0.0/css/line.css">
@@ -65,7 +66,6 @@
     </nav>
 
     <section class="dashboard">
-        <div id="top_fixed">
             <img th:src="@{/css/banner.jpg}"/><!--상단 이미지-->
 
             <nav id="second_nav">
@@ -77,16 +77,104 @@
                 <div class="animation start-home"></div>
                 <a><i style="margin-left: 300px;" class="fa-solid fa-chart-line"></i></a>
             </nav>
-        </div>
-
 
         <!-- 데이터 들어가는 공간 -->
-
-
-
+        <!--테이블-->
+        <main class="table">
+            <section class="table__header">
+                <h5 style="font-weight: bold;padding-left: 10px;">운동 List___넘버순</h5>
+                <div class="input-group">
+                    <input type="search" placeholder="Search ExerciseName and Category...🔍"/>
+                </div>
+            </section>
+            <section class="table__body">
+                <table>
+                    <thead>
+                    <tr>
+                        <th> Number <span class="icon-arrow">&UpArrow;</span></th>
+                        <th> exerciseExplanation </th>
+                        <th> exerciseName </th>
+                        <th> category </th>
+                        <th> exerciseUrl </th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:if="${allLibrary == null or #lists.isEmpty(allLibrary)}">
+                        <td colspan="6">
+                            아직 운동이 존재하지 않습니다.
+                        </td>
+                    </tr>
+                    <tr th:each="adminLibrary:${allLibrary}" th:if="${allLibrary != null}">
+                        <td th:text="${adminLibrary.getExerciseNumber()}">운동 넘버</td>
+                        <td style="text-align: center;overflow: hidden;">
+                            <span th:text="${adminLibrary.getExerciseExplanation()}">운동 설명</span>
+                        </td>
+                        <td th:text="${adminLibrary.getExerciseName()}">운동 이름</td>
+                        <td th:text="${adminLibrary.getExerciseCategory()}">카테고리</td>
+                        <td th:text="${adminLibrary.getExerciseUrl()}">url</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </section>
+        </main>
 
     </section>
 </body>
 <script th:src="@{https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js}" src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
 <script th:src="@{https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.min.js}" src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.min.js" integrity="sha384-Rx+T1VzGupg4BHQYs2gCW9It+akI2MM/mndMCy36UVfodzcJcF0GGLxZIzObiEfa" crossorigin="anonymous"></script>
+<script>
+    const search = document.querySelector('.input-group input'),
+        table_rows = document.querySelectorAll('tbody tr'),
+        table_headings = document.querySelectorAll('thead th');
+
+    // 1. Searching for specific data of HTML table
+    search.addEventListener('input', searchTable);
+
+    function searchTable() {
+        table_rows.forEach((row, i) => {
+            let third_column_data = row.querySelector('td:nth-child(3)').textContent.toLowerCase(),
+                fourth_column_data = row.querySelector('td:nth-child(4)').textContent.toLowerCase(),
+                search_data = search.value.toLowerCase();
+
+            // 검색어가 3번째 열 또는 4번째 열에 포함되지 않으면 해당 행 숨기기
+            row.classList.toggle('hide', third_column_data.indexOf(search_data) < 0 && fourth_column_data.indexOf(search_data) < 0);
+            row.style.setProperty('--delay', i / 25 + 's');
+        })
+
+        document.querySelectorAll('tbody tr:not(.hide)').forEach((visible_row, i) => {
+            visible_row.style.backgroundColor = (i % 2 == 0) ? 'transparent' : '#0000000b';
+        });
+    }
+
+    // 2. Sorting | Ordering data of HTML table
+
+    table_headings.forEach((head, i) => {
+        let sort_asc = true;
+        head.onclick = () => {
+            table_headings.forEach(head => head.classList.remove('active'));
+            head.classList.add('active');
+
+            document.querySelectorAll('td').forEach(td => td.classList.remove('active'));
+            table_rows.forEach(row => {
+                row.querySelectorAll('td')[i].classList.add('active');
+            })
+
+            head.classList.toggle('asc', sort_asc);
+            sort_asc = head.classList.contains('asc') ? false : true;
+
+            sortTable(i, sort_asc);
+        }
+    })
+
+
+    function sortTable(column, sort_asc) {
+        [...table_rows].sort((a, b) => {
+            let first_row = a.querySelectorAll('td')[column].textContent.toLowerCase(),
+                second_row = b.querySelectorAll('td')[column].textContent.toLowerCase();
+
+            return sort_asc ? (first_row < second_row ? 1 : -1) : (first_row < second_row ? -1 : 1);
+        })
+            .map(sorted_row => document.querySelector('tbody').appendChild(sorted_row));
+    }
+</script>
 </html>

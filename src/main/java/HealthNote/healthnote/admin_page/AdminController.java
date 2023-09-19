@@ -7,10 +7,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -96,8 +93,10 @@ public class AdminController {
 
     //adminPage4로 보냄.(운동 라이브러리 페이지)
     @GetMapping("/adminPage4")
-    public String AdminPage4(HttpSession httpSession){
+    public String AdminPage4(HttpSession httpSession, Model model){
         if(loginChecking(httpSession)){
+            List<AdminLibraryDto> allLibrary = adminService.findAllLibrary();
+            model.addAttribute("allLibrary",allLibrary);
             return "adminPage4";
         }
         return "redirect:/";
@@ -154,9 +153,32 @@ public class AdminController {
     @GetMapping("/adminPage_exerciseList")
     public String exerciseList(HttpSession httpSession,Model model){
         if(loginChecking(httpSession)){
+            List<AdminLibraryDto> allLibrary = adminService.findAllLibrary();
+            model.addAttribute("allLibrary",allLibrary);
             return "adminPage_exerciseList";
         }
         return "redirect:/";
+    }
+
+    //운동 수정버튼을 통한 운동 수정______(adminPage4에서 수정)
+    @PostMapping("/library/corrections")
+    public String correctionsLibrary(@RequestBody RequestLibraryDto requestLibraryDto){
+        adminService.correctionsLibrary(requestLibraryDto);
+        return "redirect:/adminPage4";
+    }
+
+    //운동 삭제버튼 통한 운동 삭제______(adminPage4에서 삭제)
+    @GetMapping("/library/delete")
+    public String deleteLibrary(@RequestParam("Pk")int exerciseNumber){
+        adminService.deleteLibrary(exerciseNumber);
+        return "redirect:/adminPage4";
+    }
+
+    //운동 추가버튼 통한 운동 추가_____(adminPage4에서 추가)
+    @PostMapping("/library/add")
+    public String addLibrary(@ModelAttribute RequestLibraryDto requestLibraryDto){
+        adminService.addLibrary(requestLibraryDto);
+        return"redirect:/adminPage4";
     }
 
 

@@ -2,10 +2,7 @@ package HealthNote.healthnote.admin_page;
 
 import HealthNote.healthnote.admin_page.dto.AdminCommunityDto;
 import HealthNote.healthnote.admin_page.dto.AdminCommunityListDto;
-import HealthNote.healthnote.domain.Admin;
-import HealthNote.healthnote.domain.Community;
-import HealthNote.healthnote.domain.Member;
-import HealthNote.healthnote.domain.WithdrawalMember;
+import HealthNote.healthnote.domain.*;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import lombok.extern.slf4j.Slf4j;
@@ -82,6 +79,26 @@ public class AdminRepository {
     public Long findExerciseCount(){
         return (Long)em.createQuery("select count(l) from Library l")
                 .getSingleResult();
+    }
+
+    //라이브러리 운동 목록 다 가져오기. ____ 운동번호가 작은 순으로 정렬
+    public List<Library> findAllLibrary(){
+        return em.createQuery("select l from Library l order by l.exerciseNumber asc ")
+                .getResultList();
+    }
+    //라이브러리 특정 운동 하나 가져오기
+    public Library findOneLibrary(int id){
+        return em.find(Library.class,id);
+    }
+    //라이브러리 특정 운동 삭제
+    public void deleteLibrary(int id){
+        em.createQuery("delete from Library l where l.exerciseNumber=:id")
+                .setParameter("id",id)
+                .executeUpdate();
+    }
+    //라이브러리 운동 추가
+    public void addLibrary(Library library){
+        em.persist(library);
     }
 
 
