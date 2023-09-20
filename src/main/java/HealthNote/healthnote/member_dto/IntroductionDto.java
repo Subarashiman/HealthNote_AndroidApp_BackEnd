@@ -1,4 +1,4 @@
-package HealthNote.healthnote.Member_dto;
+package HealthNote.healthnote.member_dto;
 
 import lombok.Getter;
 

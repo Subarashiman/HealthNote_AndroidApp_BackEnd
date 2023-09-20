@@ -12,7 +12,8 @@ import java.util.List;
 @Getter
 public class Member {
 
-    @Id@GeneratedValue
+    @Id
+    @GeneratedValue
     @Column(name = "member_id")
     private Long id;
 
@@ -24,27 +25,23 @@ public class Member {
     private String userName;
     @Setter
     private String email;
-    @Lob @Setter
+    @Lob
+    @Setter
     @Column(length = 5000000)
     private String userImage;
     @Setter
     private String introduction;
-<<<<<<< HEAD
-=======
-    @Setter
-    private String email;
+
     @Setter
     private String joinDate;
->>>>>>> 5f556d4d9bb9d1089546b01df710ae2850c74e2d
 
 
     @Setter
     @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
     private List<Community> communities = new ArrayList<>();
     @Setter
-    @OneToMany(mappedBy = "member",cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
     private List<ExerciseLog> exerciseLogs = new ArrayList<>();
-
 
 
 }

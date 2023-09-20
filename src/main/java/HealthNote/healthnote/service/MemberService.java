@@ -1,6 +1,6 @@
 package HealthNote.healthnote.service;
 
-import HealthNote.healthnote.Member_dto.*;
+import HealthNote.healthnote.member_dto.*;
 import HealthNote.healthnote.domain.Member;
 import HealthNote.healthnote.domain.WithdrawalMember;
 import HealthNote.healthnote.repository.CommunityRepository;
@@ -112,7 +112,6 @@ public class MemberService {
         }
     }
 
-<<<<<<< HEAD
     // 소개문구 저장
     public IntroductionDto setUserIntroduction(Long id, String introduction) {
         Member member = memberRepository.findOne(id);
@@ -123,7 +122,7 @@ public class MemberService {
         } else {
             return new IntroductionDto(400);
         }
-=======
+    }
 
 
     //회원탈퇴 기능 서비스
@@ -142,6 +141,5 @@ public class MemberService {
         communityRepository.deleteCommunity(id);
         memberRepository.WithdrawalMember(id);
         return true;
->>>>>>> 5f556d4d9bb9d1089546b01df710ae2850c74e2d
     }
 }
