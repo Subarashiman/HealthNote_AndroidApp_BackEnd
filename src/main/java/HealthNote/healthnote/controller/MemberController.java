@@ -5,9 +5,7 @@ import HealthNote.healthnote.domain.Member;
 import HealthNote.healthnote.service.MemberService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
 
-import java.io.IOException;
 import java.util.Objects;
 
 
@@ -57,11 +55,11 @@ public class MemberController {
     }
 
 //사진 파일을 받은 후 사진 크기를 압축해서 줄이고, base 64 문자열 형식으로 encoding한 후 encoding 된 문자열 파일을 db 저장.
-//     회원 대표사진 추가
-    @PostMapping("/api/member/main-userImage")
-    public userImageDto userImageDto(@RequestBody MultipartFile img) throws IOException {
-
-    }
+////     회원 대표사진 추가
+//    @PostMapping("/api/member/main-userImage")
+//    public userImageDto userImageDto(@RequestBody MultipartFile img) throws IOException {
+//
+//    }
 
     // 회원 소개문구 추가
     @GetMapping("/api/member/introduction")

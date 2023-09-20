@@ -5,7 +5,7 @@ import lombok.Setter;
 import org.springframework.web.multipart.MultipartFile;
 
 @Getter @Setter
-public class MyPageSaveImageDto {
+public class MyPageSaveDto {
     Long id;
     MultipartFile userImage;
 }
