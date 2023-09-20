@@ -29,13 +29,8 @@ public class Member {
     private String userImage;
     @Setter
     private String introduction;
-<<<<<<< HEAD
-=======
-    @Setter
-    private String email;
     @Setter
     private String joinDate;
->>>>>>> 5f556d4d9bb9d1089546b01df710ae2850c74e2d
 
 
     @Setter

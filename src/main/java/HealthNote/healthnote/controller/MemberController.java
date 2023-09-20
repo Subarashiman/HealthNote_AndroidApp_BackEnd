@@ -5,12 +5,6 @@ import HealthNote.healthnote.domain.Member;
 import HealthNote.healthnote.service.MemberService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
-<<<<<<< HEAD
-import org.springframework.web.multipart.MultipartFile;
-=======
->>>>>>> 5f556d4d9bb9d1089546b01df710ae2850c74e2d
-
-import java.io.IOException;
 import java.util.Objects;
 
 
@@ -35,11 +29,7 @@ public class MemberController {
     }
 
     //아이디 찾기
-<<<<<<< HEAD
     @PostMapping("/api/member/find-userId")
-=======
-    @PostMapping ("/api/members/find-userId")
->>>>>>> 5f556d4d9bb9d1089546b01df710ae2850c74e2d
     public FindIdDto findUserId(@RequestBody FormDto formDto) {
         Member result = memberService.findUserId(formDto);
         if (result != null) {
@@ -61,7 +51,7 @@ public class MemberController {
         return memberService.updateUserPass(formDto);
     }
 
-<<<<<<< HEAD
+
 //     회원 대표사진 추가
 //    @PostMapping("/api/member/main-userImage")
 //    public userImageDto userImageDto(@RequestBody MultipartFile img) throws IOException {
@@ -69,22 +59,18 @@ public class MemberController {
 //    }
 
     // 회원 소개문구 추가
-    @GetMapping
-    public IntroductionDto introductionDto(@RequestParam("id") Long id,
-                                           @RequestParam("introduction") String introduction) {
-        return memberService.setUserIntroduction(id, introduction);
-    }
-=======
+//    @GetMapping
+//    public IntroductionDto introductionDto(@RequestParam("id") Long id,
+//                                           @RequestParam("introduction") String introduction) {
+//        return memberService.setUserIntroduction(id, introduction);
+//    }
+
 
     //회원탈퇴
-    @GetMapping("/api/members/withdrawal")
+    @GetMapping("/api/member/withdrawal")
     public WithdrawalDto WithdrawalMember(@RequestParam("memberId") Long memberId){
         boolean success = memberService.WithdrawalMemberService(memberId);
         return new WithdrawalDto(success,200,"탈퇴 완료");
     }
 
-
-
-
->>>>>>> 5f556d4d9bb9d1089546b01df710ae2850c74e2d
 }

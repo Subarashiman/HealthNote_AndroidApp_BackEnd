@@ -1,7 +1,6 @@
 package HealthNote.healthnote.admin_page;
 
 import HealthNote.healthnote.admin_page.dto.*;
-import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
