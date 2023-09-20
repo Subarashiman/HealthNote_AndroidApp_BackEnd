@@ -40,7 +40,6 @@ public class MyPageService {
             String encodingPictureString = convertImageToBase64(resizedImage, "jpg");
             findMember.setUserImage(encodingPictureString);
 
-            memberRepository.save(findMember);
             return true;
         }
     }
