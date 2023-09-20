@@ -1,6 +1,6 @@
 package HealthNote.healthnote.controller;
 
-import HealthNote.healthnote.Member_dto.*;
+import HealthNote.healthnote.member_dto.*;
 import HealthNote.healthnote.domain.Member;
 import HealthNote.healthnote.service.MemberService;
 import lombok.RequiredArgsConstructor;
@@ -52,6 +52,7 @@ public class MemberController {
     }
 
 
+
 //     회원 대표사진 추가
 //    @PostMapping("/api/member/main-userImage")
 //    public userImageDto userImageDto(@RequestBody MultipartFile img) throws IOException {
@@ -64,6 +65,16 @@ public class MemberController {
 //                                           @RequestParam("introduction") String introduction) {
 //        return memberService.setUserIntroduction(id, introduction);
 //    }
+
+
+    // 회원 소개문구 추가
+    @GetMapping("/api/member/introduction")
+    public IntroductionDto introductionDto(@RequestParam("id") Long id,
+                                           @RequestParam("introduction") String introduction) {
+        return memberService.setUserIntroduction(id, introduction);
+    }
+
+    // 마이페이지 정보
 
 
     //회원탈퇴

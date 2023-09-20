@@ -1,13 +1,13 @@
-package HealthNote.healthnote.Member_dto;
+package HealthNote.healthnote.member_dto;
 
 import lombok.Getter;
 import lombok.Setter;
 
 @Getter @Setter
-public class SignUpDto {
+public class UpdateUserPassDto {
     private int code;
 
-    public SignUpDto(int code) {
+    public UpdateUserPassDto(int code) {
         this.code = code;
     }
 }

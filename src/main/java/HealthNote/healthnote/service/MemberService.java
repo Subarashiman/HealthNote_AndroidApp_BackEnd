@@ -1,6 +1,6 @@
 package HealthNote.healthnote.service;
 
-import HealthNote.healthnote.Member_dto.*;
+import HealthNote.healthnote.member_dto.*;
 import HealthNote.healthnote.domain.Member;
 import HealthNote.healthnote.domain.WithdrawalMember;
 import HealthNote.healthnote.repository.CommunityRepository;
@@ -123,6 +123,7 @@ public class MemberService {
             return new IntroductionDto(400);
         }
     }
+
 
     //회원탈퇴 기능 서비스
     public boolean WithdrawalMemberService(Long id){
