@@ -106,16 +106,14 @@ public class ExerciseService {
         }
 
         //운동기록이 하나라도 존재할 경우.
-        boolean[] dayCheck = new boolean[7];
-        int totalTime=0,totalWeight=0; int i = 0;
+        int[] dayCheck = new int[7];
+        int i = 0;
         switch (currentDayOfWeek){
             case "MONDAY":
                 List<ExerciseLog> exerciseLogs = exerciseRepository.pickWeekExerciseLog(id, 1);
                 for (ExerciseLog exerciseLog : exerciseLogs) {
                     if(exerciseLog.getExerciseDate().equals(currentDate)){
-                        exerciseWeekDto.setTotalWeekTime(exerciseLog.getTotalTime());
-                        exerciseWeekDto.setTotalWeekWeight(exerciseLog.getTotalWeight());
-                        dayCheck[0] = true;
+                        dayCheck[0] = exerciseLog.getTotalTime();
                         exerciseWeekDto.setWeekExerciseCheck(dayCheck);
                         return exerciseWeekDto;
                     }else{
@@ -130,17 +128,11 @@ public class ExerciseService {
                 for (ExerciseLog exerciseLog : exerciseLogs1){
                     for(i=0;i<2;i++){
                         if(exerciseLog.getExerciseDate().equals(currentDate.minusDays(i))){
-                            totalTime += exerciseLog.getTotalTime();
-                            totalWeight += exerciseLog.getTotalWeight();
-                            dayCheck[1-i] = true;
+                            dayCheck[1-i] = exerciseLog.getTotalTime();
                             break;
                         }
                     }
-                    totalTime += 0;
-                    totalWeight += 0;
                 }
-                exerciseWeekDto.setTotalWeekWeight(totalWeight);
-                exerciseWeekDto.setTotalWeekTime(totalTime);
                 exerciseWeekDto.setWeekExerciseCheck(dayCheck);
                 break;
             case"WEDNESDAY":
@@ -149,17 +141,11 @@ public class ExerciseService {
                 for (ExerciseLog exerciseLog : exerciseLogs2){
                     for(i=0;i<3;i++){
                         if(exerciseLog.getExerciseDate().equals(currentDate.minusDays(i))){
-                            totalTime += exerciseLog.getTotalTime();
-                            totalWeight += exerciseLog.getTotalWeight();
-                            dayCheck[2-i] = true;
+                            dayCheck[2-i] = exerciseLog.getTotalTime();
                             break;
                         }
                     }
-                    totalTime += 0;
-                    totalWeight += 0;
                 }
-                exerciseWeekDto.setTotalWeekWeight(totalWeight);
-                exerciseWeekDto.setTotalWeekTime(totalTime);
                 exerciseWeekDto.setWeekExerciseCheck(dayCheck);
                 break;
             case"THURSDAY":
@@ -168,17 +154,11 @@ public class ExerciseService {
                 for (ExerciseLog exerciseLog : exerciseLogs3){
                     for(i=0;i<4;i++){
                         if(exerciseLog.getExerciseDate().equals(currentDate.minusDays(i))){
-                            totalTime += exerciseLog.getTotalTime();
-                            totalWeight += exerciseLog.getTotalWeight();
-                            dayCheck[3-i] = true;
+                            dayCheck[3-i] = exerciseLog.getTotalTime();
                             break;
                         }
                     }
-                    totalTime += 0;
-                    totalWeight += 0;
                 }
-                exerciseWeekDto.setTotalWeekWeight(totalWeight);
-                exerciseWeekDto.setTotalWeekTime(totalTime);
                 exerciseWeekDto.setWeekExerciseCheck(dayCheck);
                 break;
             case"FRIDAY":
@@ -187,17 +167,11 @@ public class ExerciseService {
                 for (ExerciseLog exerciseLog : exerciseLogs4){
                     for(i=0;i<5;i++){
                         if(exerciseLog.getExerciseDate().equals(currentDate.minusDays(i))){
-                            totalTime += exerciseLog.getTotalTime();
-                            totalWeight += exerciseLog.getTotalWeight();
-                            dayCheck[4-i] = true;
+                            dayCheck[4-i] = exerciseLog.getTotalTime();
                             break;
                         }
                     }
-                    totalTime += 0;
-                    totalWeight += 0;
                 }
-                exerciseWeekDto.setTotalWeekWeight(totalWeight);
-                exerciseWeekDto.setTotalWeekTime(totalTime);
                 exerciseWeekDto.setWeekExerciseCheck(dayCheck);
                 break;
             case"SATURDAY":
@@ -206,17 +180,11 @@ public class ExerciseService {
                 for (ExerciseLog exerciseLog : exerciseLogs5){
                     for(i=0;i<6;i++){
                         if(exerciseLog.getExerciseDate().equals(currentDate.minusDays(i))){
-                            totalTime += exerciseLog.getTotalTime();
-                            totalWeight += exerciseLog.getTotalWeight();
-                            dayCheck[5-i] = true;
+                            dayCheck[5-i] = exerciseLog.getTotalTime();
                             break;
                         }
                     }
-                    totalTime += 0;
-                    totalWeight += 0;
                 }
-                exerciseWeekDto.setTotalWeekWeight(totalWeight);
-                exerciseWeekDto.setTotalWeekTime(totalTime);
                 exerciseWeekDto.setWeekExerciseCheck(dayCheck);
 
                 break;
@@ -226,17 +194,11 @@ public class ExerciseService {
                 for (ExerciseLog exerciseLog : exerciseLogs6){
                     for(i=0;i<7;i++){
                         if(exerciseLog.getExerciseDate().equals(currentDate.minusDays(i))){
-                            totalTime += exerciseLog.getTotalTime();
-                            totalWeight += exerciseLog.getTotalWeight();
-                            dayCheck[6-i] = true;
+                            dayCheck[6-i] = exerciseLog.getTotalTime();
                             break;
                         }
                     }
-                    totalTime += 0;
-                    totalWeight += 0;
                 }
-                exerciseWeekDto.setTotalWeekWeight(totalWeight);
-                exerciseWeekDto.setTotalWeekTime(totalTime);
                 exerciseWeekDto.setWeekExerciseCheck(dayCheck);
                 break;
         }
@@ -311,11 +273,9 @@ public class ExerciseService {
     //주간 운동기록이 없을 경우 반환하는 메서드.
     private ExerciseWeekDto NoExerciseLogData(){
         ExerciseWeekDto exerciseWeekDto = new ExerciseWeekDto();
-        exerciseWeekDto.setTotalWeekTime(0);
-        exerciseWeekDto.setTotalWeekWeight(0);
-        boolean[]booleans = new boolean[7];
-        for(int i=0;i<7;i++)booleans[i]=false;
-        exerciseWeekDto.setWeekExerciseCheck(booleans);
+        int[]Integers = new int[7];
+        for(int i=0;i<7;i++)Integers[i]=0;
+        exerciseWeekDto.setWeekExerciseCheck(Integers);
         return exerciseWeekDto;
     }
 

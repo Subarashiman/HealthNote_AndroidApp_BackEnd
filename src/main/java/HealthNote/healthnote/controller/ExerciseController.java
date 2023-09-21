@@ -47,13 +47,17 @@ public class ExerciseController {
     //운동완료 여부, 운동 시간
     @GetMapping("/exercise/week")
     public ExerciseWeekDto WeekExerciseData(@RequestParam("memberId")Long memberId){
+
         ExerciseWeekDto exerciseWeekDto = exerciseService.WeekExerciseData(memberId);
+
         if(exerciseWeekDto == null){
             ExerciseWeekDto failExerciseWeekDto = new ExerciseWeekDto();
-            failExerciseWeekDto.setCode(400); failExerciseWeekDto.setSuccess(false);
+            int[]failWeek = new int[]{0,0,0,0,0,0,0};
+            failExerciseWeekDto.setWeekExerciseCheck(failWeek);
+            failExerciseWeekDto.setCode(400);
             return failExerciseWeekDto;
         }
-        exerciseWeekDto.setSuccess(true);
+
         exerciseWeekDto.setCode(200);
         return exerciseWeekDto;
     }
