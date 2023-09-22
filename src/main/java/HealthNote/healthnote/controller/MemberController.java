@@ -5,6 +5,7 @@ import HealthNote.healthnote.member_dto.*;
 import HealthNote.healthnote.service.MemberService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
+
 import java.util.Objects;
 
 
@@ -52,21 +53,6 @@ public class MemberController {
     }
 
 
-
-//     회원 대표사진 추가
-//    @PostMapping("/api/member/main-userImage")
-//    public userImageDto userImageDto(@RequestBody MultipartFile img) throws IOException {
-//
-//    }
-
-    // 회원 소개문구 추가
-//    @GetMapping
-//    public IntroductionDto introductionDto(@RequestParam("id") Long id,
-//                                           @RequestParam("introduction") String introduction) {
-//        return memberService.setUserIntroduction(id, introduction);
-//    }
-
-
     // 회원 소개문구 추가
     @GetMapping("/api/member/introduction")
     public IntroductionDto introductionDto(@RequestParam("id") Long id,
@@ -79,9 +65,9 @@ public class MemberController {
 
     //회원탈퇴
     @DeleteMapping("/api/member/withdrawal")
-    public WithdrawalDto WithdrawalMember(@RequestParam("memberId") Long memberId){
+    public WithdrawalDto WithdrawalMember(@RequestParam("memberId") Long memberId) {
         boolean success = memberService.WithdrawalMemberService(memberId);
-        return new WithdrawalDto(success,200,"탈퇴 완료");
+        return new WithdrawalDto(success, 200, "탈퇴 완료");
     }
 
 }
