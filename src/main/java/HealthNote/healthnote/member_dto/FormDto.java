@@ -1,8 +1,9 @@
 package HealthNote.healthnote.member_dto;
 
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
-@Data
+@Getter@Setter
 public class FormDto {
     private Long id;
     private String userId;

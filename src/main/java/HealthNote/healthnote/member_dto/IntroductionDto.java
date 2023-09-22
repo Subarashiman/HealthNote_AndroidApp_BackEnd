@@ -1,8 +1,9 @@
 package HealthNote.healthnote.member_dto;
 
 import lombok.Getter;
+import lombok.Setter;
 
-@Getter
+@Getter@Setter
 public class IntroductionDto {
     int code;
 

@@ -1,7 +1,7 @@
 package HealthNote.healthnote.controller;
 
-import HealthNote.healthnote.member_dto.*;
 import HealthNote.healthnote.domain.Member;
+import HealthNote.healthnote.member_dto.*;
 import HealthNote.healthnote.service.MemberService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
@@ -78,7 +78,7 @@ public class MemberController {
 
 
     //회원탈퇴
-    @GetMapping("/api/member/withdrawal")
+    @DeleteMapping("/api/member/withdrawal")
     public WithdrawalDto WithdrawalMember(@RequestParam("memberId") Long memberId){
         boolean success = memberService.WithdrawalMemberService(memberId);
         return new WithdrawalDto(success,200,"탈퇴 완료");
