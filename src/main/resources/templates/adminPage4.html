@@ -106,7 +106,7 @@
                     <tr th:each="adminLibrary:${allLibrary}" th:if="${allLibrary != null}">
                         <td th:text="${adminLibrary.getExerciseNumber()}">운동 넘버</td>
                         <td style="text-align: center;overflow: hidden;">
-                            <span th:text="${adminLibrary.getExerciseExplanation()}">운동 설명</span>
+                            <span  th:text="${adminLibrary.getExerciseExplanation()}">운동 설명</span>
                         </td>
                         <td th:text="${adminLibrary.getExerciseName()}">운동 이름</td>
                         <td th:text="${adminLibrary.getExerciseCategory()}">카테고리</td>
