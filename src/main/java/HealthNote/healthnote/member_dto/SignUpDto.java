@@ -4,7 +4,7 @@ package HealthNote.healthnote.member_dto;
 import lombok.Getter;
 import lombok.Setter;
 
-@Getter@Setter
+@Setter@Getter
 public class SignUpDto {
     private int code;
 
