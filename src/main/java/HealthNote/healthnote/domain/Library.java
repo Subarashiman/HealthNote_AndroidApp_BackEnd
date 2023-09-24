@@ -17,6 +17,7 @@ public class Library {
     @Setter
     private String exerciseUrl;
     @Setter
+    @Column(length = 1000)
     private String exerciseExplanation;
 
 }
