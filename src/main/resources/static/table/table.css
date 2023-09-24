@@ -100,7 +100,6 @@
 .dashboard .table table td:first-child {
     width: 8%; /* 1번 열의 너비, 원하는 크기로 조정 */
 }
-
 .dashboard .table table th:nth-child(2){
     text-align: center;
 }

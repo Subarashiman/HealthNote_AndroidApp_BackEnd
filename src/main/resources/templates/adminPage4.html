@@ -16,7 +16,21 @@
     <link rel="icon" th:href="@{/css/favicon.ico}" href="/css/favicon.ico">  <!--파비콘-->
     <link th:href="@{https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css}" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
 
-    <title>Health Note Admin Page</title> 
+    <title>Health Note Admin Page</title>
+
+    <style>
+        .dashboard .table table td:nth-child(2)/* For "운동 설명" */{
+            max-width: 400px; /* Adjust the desired maximum width */
+            height: 100px;
+            white-space: nowrap;
+            overflow: scroll;
+        }
+        .dashboard .table table td:nth-child(5) /* For "url" */ {
+            max-width: 250px; /* Adjust the desired maximum width */
+            white-space: nowrap;
+            overflow: scroll;
+        }
+    </style>
 </head>
 <body>
     <nav id="first_nav">
@@ -105,9 +119,7 @@
                     </tr>
                     <tr th:each="adminLibrary:${allLibrary}" th:if="${allLibrary != null}">
                         <td th:text="${adminLibrary.getExerciseNumber()}">운동 넘버</td>
-                        <td style="text-align: center;overflow: hidden;">
-                            <span  th:text="${adminLibrary.getExerciseExplanation()}">운동 설명</span>
-                        </td>
+                        <td th:text="${adminLibrary.getExerciseExplanation()}">운동 설명</td>
                         <td th:text="${adminLibrary.getExerciseName()}">운동 이름</td>
                         <td th:text="${adminLibrary.getExerciseCategory()}">카테고리</td>
                         <td th:text="${adminLibrary.getExerciseUrl()}">url</td>
@@ -209,7 +221,7 @@
         let row = button.closest('tr');
         let exerciseNumber = row.querySelector('td:nth-child(1)').textContent;
         let exerciseName = row.querySelector('td:nth-child(3)').textContent;
-        let exerciseExplanation = row.querySelector('td:nth-child(2) span').textContent;
+        let exerciseExplanation = row.querySelector('td:nth-child(2)').textContent;
         let exerciseUrl = row.querySelector('td:nth-child(5)').textContent;
 
         let modal = document.getElementById('myModal');
