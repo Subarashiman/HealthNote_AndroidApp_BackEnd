@@ -118,9 +118,11 @@
                 <br>
                 <label for="exerciseExplanation">운동 설명:</label>
                 <textarea id="exerciseExplanation"  style="overflow: scroll" th:name="exerciseExplanation" required cols="150" rows="15"></textarea>
+                <textarea id="exerciseExplanation" th:name="exerciseExplanation" cols="150" rows="15"></textarea>
+<!--                <input type="text" id="exerciseExplanation" th:name="exerciseExplanation" name="exerciseExplanation" required>-->
                 <br>
                 <label for="exerciseUrl">URL:</label>
-                <input type="text" id="exerciseUrl" th:name="exerciseUrl" name="exerciseUrl" required>
+                <input type="text" id="exerciseUrl" th:name="exerciseUrl" name="exerciseUrl">
                 <br>
                 <div class="btn_submit"><button th:type="submit" type="submit">추가</button></div>
             </form>
