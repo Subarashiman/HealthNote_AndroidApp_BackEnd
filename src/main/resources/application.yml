@@ -13,7 +13,7 @@ spring:
 
   jpa:
     hibernate:
-      ddl-auto: none #create면 서버 시작마다 DB에 데이터 초기화 none이면 한번 저장된 데이터 계속 유지
+      ddl-auto: update #none #create면 서버 시작마다 DB에 데이터 초기화 none이면 한번 저장된 데이터 계속 유지
     properties:
       hibernate:
         format_sql: true
