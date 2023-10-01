@@ -12,6 +12,7 @@ public class CommunityDto {
     private int goodCount;
     private String userImage;
     private String userName;
+    private boolean likeState;
 
     public CommunityDto(String userImage, String userName, String communityPicture, String title, int goodCount,Long communityId) {
         this.userImage = userImage;

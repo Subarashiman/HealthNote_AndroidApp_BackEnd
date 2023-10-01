@@ -5,6 +5,7 @@ import HealthNote.healthnote.community_dto.CommunitySaveDto;
 import HealthNote.healthnote.community_dto.Community_ID_Boolean;
 import HealthNote.healthnote.community_dto.EncodingImageDto;
 import HealthNote.healthnote.domain.Community;
+import HealthNote.healthnote.domain.CommunityLikeMember;
 import HealthNote.healthnote.domain.Member;
 import HealthNote.healthnote.repository.CommunityRepository;
 import HealthNote.healthnote.repository.MemberRepository;
@@ -60,7 +61,7 @@ public class CommunityService {
 
             BufferedImage originalImage = ImageIO.read(picture.getInputStream());
             BufferedImage resizedImage = Thumbnails.of(originalImage)
-                    .size(80, 80)
+                    .size(1080, 1080)
                     .asBufferedImage();
 
             String encodingPictureString = convertImageToBase64(resizedImage, "jpg");
@@ -76,11 +77,26 @@ public class CommunityService {
 
 
 
-    //좋아요 더하기 기능
-    public int GoodCountAdd(Long id){
+    //좋아요 더하기 기능   , 좋아요 누른 게시물에 좋아요테이블에 해당 유저 추가
+    public int GoodCountAdd(Long id, Long memberId){
         Community findCommunity = communityRepository.findCommunity(id);
+        //만약 이미 좋아요를 눌렀던 적이 있는 게시물인 경우 좋아요 추가 안됨. 그대로 반환
+        List<CommunityLikeMember> communityLikeMember1 = findCommunity.getCommunityLikeMember();
+        for (CommunityLikeMember communityLikeMember : communityLikeMember1) {
+            if(communityLikeMember.getMemberId() == memberId){
+                return findCommunity.getGoodCount();
+            }
+        }
+
         int goodCount = findCommunity.getGoodCount();
         findCommunity.setGoodCount(goodCount+1);
+
+        //좋아요 누를 게시글에 좋아요 테이블 생성 추가
+        CommunityLikeMember communityLikeMember = new CommunityLikeMember();
+        communityLikeMember.setMemberId(memberId);
+        communityLikeMember.setCommunity(findCommunity);
+
+        communityRepository.saveLikeTable(communityLikeMember);
         return findCommunity.getGoodCount();
     }
 
@@ -110,16 +126,26 @@ public class CommunityService {
 
     //전체 게시판 게시글 10개씩 끊어서 데이터 넘겨주기 기능
     //넘겨야 할 데이터(유저 사진, 유저이름, 게시판 사진, 타이틀, 좋아요 수, 게시글 id(PK))
-    public List<CommunityDto> CommunityAllByTen(int front){
+    public List<CommunityDto> CommunityAllByTen(int front, Long memberId){
         List<CommunityDto> communityDtos = communityRepository.findCommunityAllByTen(front);
         if(communityDtos == null){
             return null;
         }
 
-        //유저 사진이 없을 경우 null값 넣어주기
+        //유저 사진이 없을 경우 null값 넣어주기, 유저가 해당 게시물 좋아요 눌렀는지 안눌렀는지 확인.
         for (CommunityDto communityDto : communityDtos) {
             if(communityDto.getUserImage() == null){
                 communityDto.setUserImage(null);
+            }
+            //유저가 해당 게시물 좋아요 눌렀는지 확인 후 값 넣어주기.
+            Community community = communityRepository.findCommunity(communityDto.getCommunityId());
+            List<CommunityLikeMember> communityLikeMembers = community.getCommunityLikeMember();
+
+            for (CommunityLikeMember communityLikeMember : communityLikeMembers) {
+                if(communityLikeMember.getMemberId() == memberId){
+                    communityDto.setLikeState(true);
+                    break;
+                }
             }
         }
         return communityDtos;

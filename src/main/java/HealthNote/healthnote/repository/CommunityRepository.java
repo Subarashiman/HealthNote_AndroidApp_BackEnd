@@ -2,6 +2,7 @@ package HealthNote.healthnote.repository;
 
 import HealthNote.healthnote.community_dto.CommunityDto;
 import HealthNote.healthnote.domain.Community;
+import HealthNote.healthnote.domain.CommunityLikeMember;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import org.springframework.stereotype.Repository;
@@ -51,11 +52,21 @@ public class CommunityRepository {
                 .getResultList();
     }
 
+    //좋아요 테이블에 해당 게시글에 좋아요한 회원 추가
+    public void saveLikeTable(CommunityLikeMember communityLikeMember){
+        em.persist(communityLikeMember);
+    }
 
 
 
-    //해당 회원의 게시글 전체 삭제
+
+
+    //해당 회원의 게시글 전체 삭제, 해당 회원의 게시글 다 가져와서 게시글별 좋아요 테이블 다 삭제
     public void deleteCommunity(Long id){
+        em.createQuery("delete from CommunityLikeMember cl where cl.MemberId=:id")
+                .setParameter("id", id)
+                .executeUpdate();
+
         em.createQuery("delete from Community c where c.member.id=:id")
                 .setParameter("id",id)
                 .executeUpdate();

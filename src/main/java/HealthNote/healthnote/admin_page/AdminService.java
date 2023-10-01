@@ -5,6 +5,7 @@ import HealthNote.healthnote.domain.Admin;
 import HealthNote.healthnote.domain.Library;
 import HealthNote.healthnote.domain.Member;
 import HealthNote.healthnote.domain.WithdrawalMember;
+import HealthNote.healthnote.repository.CommunityRepository;
 import HealthNote.healthnote.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -24,6 +25,7 @@ import java.util.stream.Collectors;
 public class AdminService {
     private final AdminRepository adminRepository;
     private final MemberRepository memberRepository;
+    private final CommunityRepository communityRepository;
 
     //관리자 로그인 페이지에서 로그인 요청
     //해당 계정이 있는지 확인후 return
@@ -67,6 +69,7 @@ public class AdminService {
         String formattedDateTime = currentDateTime.format(formatter);
         withdrawalMember.setWithdrawalDate(formattedDateTime);
 
+        communityRepository.deleteCommunity(id);
         memberRepository.saveWithdrawalMember(withdrawalMember);
         memberRepository.WithdrawalMember(id);
     }

@@ -42,6 +42,13 @@ public class AdminRepository {
 
     //해당 게시글 삭제
     public void deleteCommunity(Long id){
+        Community findCommunity = em.find(Community.class, id);
+        List<CommunityLikeMember> communityLikeMembers = findCommunity.getCommunityLikeMember();
+        if(communityLikeMembers !=null){
+            for (CommunityLikeMember communityLikeMember : communityLikeMembers) {
+                em.remove(communityLikeMember);
+            }
+        }
         em.createQuery("delete from Community c where c.id=:id")
                 .setParameter("id",id)
                 .executeUpdate();
