@@ -45,8 +45,8 @@ public class CommunityController {
 
     //게시글 좋아요
     @GetMapping("/community")
-    public GoodCountDTO GoodCountAdd(@RequestParam("communityId")Long communityId){
-        int goodCount = communityService.GoodCountAdd(communityId);
+    public GoodCountDTO GoodCountAdd(@RequestParam("communityId")Long communityId,@RequestParam("memberId")Long memberId){
+        int goodCount = communityService.GoodCountAdd(communityId,memberId);
         return new GoodCountDTO(goodCount,200);
     }
 
@@ -70,8 +70,8 @@ public class CommunityController {
     //10개씩 끊어서 넘겨주기 최근 부터 이후 날짜 데이터로  ---> 전체게시판 테이블에서 게시판PK로 10개씩 끊어서 넘겨주기
     //				-----> 넘겨야 할 데이터(유저 사진, 유저이름, 게시판 사진, 타이틀, 좋아요 수)
     @GetMapping("/community/all")
-    public CommunityAll CommunityAllBy10(@RequestParam("front")int front){
-        List<CommunityDto> communityDtos = communityService.CommunityAllByTen(front);
+    public CommunityAll CommunityAllBy10(@RequestParam("front")int front,@RequestParam("memberId")Long memberId){
+        List<CommunityDto> communityDtos = communityService.CommunityAllByTen(front,memberId);
         if(communityDtos == null){
             return new CommunityAll(null,200,0);
         }
