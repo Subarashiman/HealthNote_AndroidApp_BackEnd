@@ -11,7 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional
 public class LibraryService {
 
-    private LibraryRepository libraryRepository;
+    private final LibraryRepository libraryRepository;
     public Library find(int exerciseNumber) {
         return libraryRepository.find(exerciseNumber);
     }

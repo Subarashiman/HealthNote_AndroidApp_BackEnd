@@ -10,14 +10,17 @@ public class LibraryDto {
     int code;
     int exerciseNumber;
     String exerciseName;
-    String exerciseExplaination;
+    String exerciseExplanation;
     String exerciseUrl;
 
-    public LibraryDto(int code, int exerciseNumber, String exerciseName, String exerciseExplaination, String exerciseUrl) {
+    public LibraryDto() {
+
+    }
+    public LibraryDto(int code, int exerciseNumber, String exerciseName, String exerciseExplanation, String exerciseUrl) {
         this.code = code;
         this.exerciseNumber = exerciseNumber;
         this.exerciseName = exerciseName;
-        this.exerciseExplaination = exerciseExplaination;
+        this.exerciseExplanation = exerciseExplanation;
         this.exerciseUrl = exerciseUrl;
     }
 }
