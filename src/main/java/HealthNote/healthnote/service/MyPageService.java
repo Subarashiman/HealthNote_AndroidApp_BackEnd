@@ -1,6 +1,7 @@
 package HealthNote.healthnote.service;
 
 import HealthNote.healthnote.domain.Member;
+import HealthNote.healthnote.myPage_dto.MyPageDto;
 import HealthNote.healthnote.myPage_dto.MyPageSaveDto;
 import HealthNote.healthnote.repository.MemberRepository;
 import jakarta.transaction.Transactional;
@@ -22,6 +23,15 @@ import java.util.Base64;
 public class MyPageService {
 
     private final MemberRepository memberRepository;
+
+    public MyPageDto findUserInfo(Long id) {
+        Member findMember = memberRepository.findOne(id);
+        if (findMember == null) {
+            return null;
+        }
+        return new MyPageDto(200, findMember.getUserName(), findMember.getIntroduction(), findMember.getEmail(), findMember.getUserImage());
+    }
+
 
     public Boolean saveUserImage(MyPageSaveDto mpd) throws IOException {
         Member findMember = memberRepository.findOne(mpd.getId());

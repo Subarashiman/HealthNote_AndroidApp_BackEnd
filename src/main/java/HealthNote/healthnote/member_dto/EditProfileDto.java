@@ -5,10 +5,10 @@ import lombok.Getter;
 import lombok.Setter;
 
 @Getter@Setter
-public class IntroductionDto {
-    int code;
+public class EditProfileDto {
+    private int code;
 
-    public IntroductionDto(int code) {
+    public EditProfileDto(int code) {
         this.code = code;
     }
 }

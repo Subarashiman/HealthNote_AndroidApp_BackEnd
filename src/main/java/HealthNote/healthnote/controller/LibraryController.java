@@ -1,12 +1,14 @@
 package HealthNote.healthnote.controller;
 
 import HealthNote.healthnote.domain.Library;
-import HealthNote.healthnote.library_dto.LibraryDto;
+import HealthNote.healthnote.library_dto.LibraryExerciseInfoDto;
 import HealthNote.healthnote.service.LibraryService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
@@ -14,22 +16,30 @@ public class LibraryController {
 
     private final LibraryService libraryService;
 
-    // n00 -> 운동 카테고리(exerciseName) 넘김 , n0m -> exerciseName, exerciseExplaination, exerciseUrl 넘김
+    @GetMapping("/api/library/exercise-list")
+    public List<Library> getExerciseListByExerciseNumber(@RequestParam int exerciseNumber) {
+
+
+        return libraryService.getExercisesByExerciseNumber(exerciseNumber);
+    }
+
+
+
     // 운동 정보
-    @GetMapping("/api/library/exercise")
-    public LibraryDto findExercise(@RequestParam("exerciseNumber") int exerciseNumber) {
+    @GetMapping("/api/library/exercise-info")
+    public LibraryExerciseInfoDto findExercise(@RequestParam("exerciseNumber") int exerciseNumber) {
         Library result = libraryService.find(exerciseNumber);
 
         if (result != null && result.getExerciseName() != null) {
             return convertLibraryToDto(result);
         } else {
-            return new LibraryDto(400, exerciseNumber, null, null, null);
+            return new LibraryExerciseInfoDto(400, exerciseNumber, null, null, null);
         }
 
     }
 
-    private LibraryDto convertLibraryToDto(Library library) {
-        LibraryDto libraryDto = new LibraryDto();
+    private LibraryExerciseInfoDto convertLibraryToDto(Library library) {
+        LibraryExerciseInfoDto libraryDto = new LibraryExerciseInfoDto();
         libraryDto.setCode(200);
         libraryDto.setExerciseNumber(library.getExerciseNumber());
         libraryDto.setExerciseName(library.getExerciseName());

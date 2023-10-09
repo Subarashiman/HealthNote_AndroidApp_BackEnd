@@ -113,14 +113,15 @@ public class MemberService {
     }
 
     // 소개문구 저장
-    public IntroductionDto setUserIntroduction(Long id, String introduction) {
-        Member member = memberRepository.findOne(id);
+    public EditProfileDto editProfile(EditProfileFormDto editProfileFormDto) {
+        Member member = memberRepository.findOne(editProfileFormDto.getId());
         if (member != null) {
-            member.setIntroduction(introduction);
+            member.setUserName(editProfileFormDto.getUserName());
+            member.setIntroduction(editProfileFormDto.getIntroduction());
             memberRepository.save(member);
-            return new IntroductionDto(200);
+            return new EditProfileDto(200);
         } else {
-            return new IntroductionDto(400);
+            return new EditProfileDto(400);
         }
     }
 

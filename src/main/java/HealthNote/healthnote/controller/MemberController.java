@@ -54,10 +54,9 @@ public class MemberController {
 
 
     // 회원 소개문구 추가
-    @GetMapping("/api/member/introduction")
-    public IntroductionDto introductionDto(@RequestParam("id") Long id,
-                                           @RequestParam("introduction") String introduction) {
-        return memberService.setUserIntroduction(id, introduction);
+    @PostMapping("/api/member/edit-profile")
+    public EditProfileDto introductionDto(@RequestBody EditProfileFormDto editProfileFormDto) {
+        return memberService.editProfile(editProfileFormDto);
     }
 
     // 마이페이지 정보

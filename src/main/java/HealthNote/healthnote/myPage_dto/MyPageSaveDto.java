@@ -6,6 +6,6 @@ import org.springframework.web.multipart.MultipartFile;
 
 @Getter @Setter
 public class MyPageSaveDto {
-    Long id;
-    MultipartFile userImage;
+    private Long id;
+    private MultipartFile userImage;
 }

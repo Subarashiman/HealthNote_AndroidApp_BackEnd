@@ -5,7 +5,7 @@ import lombok.Setter;
 
 @Getter @Setter
 public class MyPageSaveImageResponseDto {
-    int code;
+    private int code;
 
     public MyPageSaveImageResponseDto(int code) {
         this.code = code;
