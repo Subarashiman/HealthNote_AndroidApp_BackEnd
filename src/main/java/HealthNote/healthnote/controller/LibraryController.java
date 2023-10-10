@@ -2,6 +2,7 @@ package HealthNote.healthnote.controller;
 
 import HealthNote.healthnote.domain.Library;
 import HealthNote.healthnote.library_dto.LibraryExerciseInfoDto;
+import HealthNote.healthnote.library_dto.LibraryExerciseListDto;
 import HealthNote.healthnote.service.LibraryService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -17,10 +18,10 @@ public class LibraryController {
     private final LibraryService libraryService;
 
     @GetMapping("/api/library/exercise-list")
-    public List<Library> getExerciseListByExerciseNumber(@RequestParam int exerciseNumber) {
+    public List<LibraryExerciseListDto> getExerciseListByExerciseNumber(@RequestParam int exerciseNumber) {
 
-
-        return libraryService.getExercisesByExerciseNumber(exerciseNumber);
+        List<LibraryExerciseListDto> libraryExerciseListDto = libraryService.getExercisesByExerciseNumber(exerciseNumber);
+        return libraryExerciseListDto;
     }
 
 

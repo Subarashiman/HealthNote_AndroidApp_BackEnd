@@ -1,6 +1,7 @@
 package HealthNote.healthnote.service;
 
 import HealthNote.healthnote.domain.Library;
+import HealthNote.healthnote.library_dto.LibraryExerciseListDto;
 import HealthNote.healthnote.repository.LibraryRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -18,7 +19,7 @@ public class LibraryService {
         return libraryRepository.find(exerciseNumber);
     }
 
-    public List<Library> getExercisesByExerciseNumber(int exerciseNumber) {
+    public List<LibraryExerciseListDto> getExercisesByExerciseNumber(int exerciseNumber) {
         // exerciseNumber의 백의 자리를 구합니다.
         int exerciseCategory = exerciseNumber / 100;
 

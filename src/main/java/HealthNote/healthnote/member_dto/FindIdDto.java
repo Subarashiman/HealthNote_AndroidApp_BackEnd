@@ -4,8 +4,7 @@ package HealthNote.healthnote.member_dto;
 import lombok.Getter;
 import lombok.Setter;
 
-@Getter
-@Setter
+@Getter@Setter
 public class FindIdDto {
     private String userId;
     private int code;

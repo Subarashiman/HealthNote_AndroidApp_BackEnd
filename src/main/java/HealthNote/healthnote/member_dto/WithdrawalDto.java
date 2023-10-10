@@ -1,9 +1,8 @@
 package HealthNote.healthnote.member_dto;
 
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Data;
 
-@Setter@Getter
+@Data
 public class WithdrawalDto {
     private boolean success;
     private int code;
