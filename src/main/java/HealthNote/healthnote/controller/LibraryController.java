@@ -1,6 +1,7 @@
 package HealthNote.healthnote.controller;
 
 import HealthNote.healthnote.domain.Library;
+import HealthNote.healthnote.library_dto.ExerciseListDto;
 import HealthNote.healthnote.library_dto.LibraryExerciseInfoDto;
 import HealthNote.healthnote.library_dto.LibraryExerciseListDto;
 import HealthNote.healthnote.service.LibraryService;
@@ -18,10 +19,11 @@ public class LibraryController {
     private final LibraryService libraryService;
 
     @GetMapping("/api/library/exercise-list")
-    public List<LibraryExerciseListDto> getExerciseListByExerciseNumber(@RequestParam int exerciseNumber) {
+    public ExerciseListDto getExerciseListByExerciseNumber(@RequestParam int exerciseNumber) {
 
-        List<LibraryExerciseListDto> libraryExerciseListDto = libraryService.getExercisesByExerciseNumber(exerciseNumber);
-        return libraryExerciseListDto;
+        ExerciseListDto exerciseListDto = libraryService.getExercisesByExerciseNumber(exerciseNumber);
+
+        return exerciseListDto;
     }
 
 

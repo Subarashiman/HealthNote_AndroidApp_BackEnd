@@ -1,6 +1,7 @@
 package HealthNote.healthnote.service;
 
 import HealthNote.healthnote.domain.Library;
+import HealthNote.healthnote.library_dto.ExerciseListDto;
 import HealthNote.healthnote.library_dto.LibraryExerciseListDto;
 import HealthNote.healthnote.repository.LibraryRepository;
 import lombok.RequiredArgsConstructor;
@@ -19,7 +20,7 @@ public class LibraryService {
         return libraryRepository.find(exerciseNumber);
     }
 
-    public List<LibraryExerciseListDto> getExercisesByExerciseNumber(int exerciseNumber) {
+    public ExerciseListDto getExercisesByExerciseNumber(int exerciseNumber) {
         // exerciseNumber의 백의 자리를 구합니다.
         int exerciseCategory = exerciseNumber / 100;
 
@@ -28,6 +29,9 @@ public class LibraryService {
         int end = (exerciseCategory + 1) * 100 - 1;
 
         // 해당 범위의 운동 정보를 반환합니다.
-        return libraryRepository.findByExerciseNumberBetween(start, end);
+        List<LibraryExerciseListDto> byExerciseNumberBetween = libraryRepository.findByExerciseNumberBetween(start, end);
+        ExerciseListDto exerciseListDto = new ExerciseListDto();
+        exerciseListDto.setLibraryExerciseListDtos(byExerciseNumberBetween);
+        return exerciseListDto;
     }
 }
